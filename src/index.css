@@ -123,18 +123,49 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Use dynamic viewport height for mobile browsers */
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   * {
     @apply border-border;
+    /* Remove tap highlight on mobile */
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    /* Safe area insets for notched devices */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    /* Prevent overscroll bounce on iOS */
+    overscroll-behavior-y: none;
+    /* Smooth scrolling momentum on iOS */
+    -webkit-overflow-scrolling: touch;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
+  }
+
+  /* Prevent iOS zoom on input focus (requires 16px min) */
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+
+  /* Better touch targets */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Fix Safari flexbox issues */
+  img {
+    -webkit-user-drag: none;
   }
 }
 
@@ -148,11 +179,17 @@
   }
 
   .section-padding {
-    @apply py-20 md:py-28 lg:py-32 px-6 md:px-12 lg:px-20;
+    @apply py-16 md:py-28 lg:py-32 px-5 md:px-12 lg:px-20;
   }
 
   .hero-section {
     background-color: hsl(var(--hero-bg));
     color: hsl(var(--hero-foreground));
+  }
+
+  /* Dynamic viewport height for mobile browsers (Safari address bar) */
+  .min-h-screen-dynamic {
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 }

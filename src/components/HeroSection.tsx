@@ -13,14 +13,14 @@ const HeroSection = () => {
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.75, 0.9]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
+    <section ref={ref} className="relative min-h-screen-dynamic flex items-center justify-center overflow-hidden hero-section">
       {/* Parallax background */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
         <img src={heroBg} alt="Elegant home interior" className="w-full h-full object-cover scale-110" loading="eager" fetchPriority="high" />
       </motion.div>
       <motion.div className="absolute inset-0 bg-charcoal" style={{ opacity: overlayOpacity }} />
 
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <div className="relative z-10 text-center px-5 max-w-4xl mx-auto pt-16 pb-8 md:pt-0 md:pb-0">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -84,13 +84,13 @@ const HeroSection = () => {
         >
           <a
             href="#contact"
-            className="px-8 py-3.5 bg-accent text-primary font-body text-sm tracking-[0.15em] uppercase hover:bg-gold-light transition-colors"
+            className="px-8 py-3.5 bg-accent text-primary font-body text-sm tracking-[0.15em] uppercase hover:bg-gold-light active:scale-[0.97] transition-all"
           >
             Begin a Conversation
           </a>
           <a
             href="#services"
-            className="px-8 py-3.5 bg-accent/15 border border-accent text-accent font-body text-sm tracking-[0.15em] uppercase hover:bg-accent hover:text-primary transition-colors"
+            className="px-8 py-3.5 bg-accent/15 border border-accent text-accent font-body text-sm tracking-[0.15em] uppercase hover:bg-accent hover:text-primary active:scale-[0.97] transition-all"
           >
             Explore Services
           </a>
