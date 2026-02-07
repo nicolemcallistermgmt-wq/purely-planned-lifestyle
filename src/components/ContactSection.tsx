@@ -22,27 +22,23 @@ const ContactSection = () => {
 
     setSubmitting(true);
     try {
-      const response = await fetch("/api/submit-form", {
+      const body = new FormData();
+      body.append("access_key", "db4d914c-862c-4068-b930-1b34baaf4951");
+      body.append("subject", `Quick Inquiry from ${formData.name}`);
+      body.append("from_name", formData.name);
+      body.append("replyto", formData.email);
+      body.append("Name", formData.name);
+      body.append("Email", formData.email);
+      body.append("Phone", formData.phone || "Not provided");
+      body.append("Message", formData.message);
+      body.append("h-captcha-response", captchaToken);
+
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type: "contact",
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-          "h-captcha-response": captchaToken,
-        }),
+        body,
       });
 
-      const text = await response.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        toast({ title: "Submission failed", description: "Unexpected server response.", variant: "destructive" });
-        return;
-      }
+      const data = await response.json();
 
       if (data.success) {
         toast({ title: "Message sent!", description: "We'll be in touch shortly." });
