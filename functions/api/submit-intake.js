@@ -47,80 +47,98 @@ export async function onRequestOptions() {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Debug: check if access key is configured
   if (!env.WEB3FORMS_ACCESS_KEY) {
-    console.error("WEB3FORMS_ACCESS_KEY is not set in environment variables");
-    return jsonResponse({ success: false, message: "Server configuration error." }, 500);
+    return jsonResponse({ success: false, message: "Server configuration error: missing API key." }, 500);
   }
 
+  let data;
   try {
-    const data = await request.json();
-
-    // Honeypot check
-    if (data.website) {
-      return jsonResponse({ success: true });
-    }
-
-    const firstName = sanitize(data.firstName, 100);
-    const lastName = sanitize(data.lastName, 100);
-    const email = String(data.email || "").trim().slice(0, 255);
-
-    if (!firstName || !lastName || !email) {
-      return jsonResponse({ success: false, message: "Name and email are required." }, 400);
-    }
-
-    if (!validateEmail(email)) {
-      return jsonResponse({ success: false, message: "Invalid email address." }, 400);
-    }
-
-    if (!validatePhone(data.phone || "")) {
-      return jsonResponse({ success: false, message: "Invalid phone number." }, 400);
-    }
-
-    if (!validateZip(data.zip || "")) {
-      return jsonResponse({ success: false, message: "Invalid ZIP code." }, 400);
-    }
-
-    const services = (data.services || []).filter((s) => ALLOWED_SERVICES.includes(s));
-    if (services.length === 0) {
-      return jsonResponse({ success: false, message: "At least one service is required." }, 400);
-    }
-
-    // Use FormData format (Web3Forms primary format)
-    const formData = new FormData();
-    formData.append("access_key", env.WEB3FORMS_ACCESS_KEY);
-    formData.append("subject", `New Client Intake: ${firstName} ${lastName}`);
-    formData.append("from_name", `${firstName} ${lastName}`);
-    formData.append("replyto", email);
-    formData.append("First Name", firstName);
-    formData.append("Last Name", lastName);
-    formData.append("Email", email);
-    formData.append("Phone", sanitize(data.phone, 30) || "Not provided");
-    formData.append("Preferred Contact", sanitize(data.preferredContact || "email", 20));
-    formData.append("Address", sanitize(data.address, 200) || "Not provided");
-    formData.append("City", sanitize(data.city, 100) || "Not provided");
-    formData.append("State", sanitize(data.state, 50) || "Not provided");
-    formData.append("ZIP", sanitize(data.zip, 15) || "Not provided");
-    formData.append("Services Requested", services.join(", "));
-    formData.append("Timeline", sanitize(data.timeline, 50) || "Not specified");
-    formData.append("Budget Range", sanitize(data.budget, 50) || "Not specified");
-    formData.append("Referral Source", sanitize(data.referralSource, 200) || "Not specified");
-    formData.append("Additional Information", sanitize(data.additionalInfo, 2000) || "None provided");
-
-    // hCaptcha token
-    if (data["h-captcha-response"]) {
-      formData.append("h-captcha-response", data["h-captcha-response"]);
-    }
-
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData,
-    });
-
-    const responseData = await response.json();
-    return jsonResponse(responseData, response.ok ? 200 : 500);
-  } catch (err) {
-    console.error("Function error:", err);
-    return jsonResponse({ success: false, message: "Server error. Please try again." }, 500);
+    data = await request.json();
+  } catch (e) {
+    return jsonResponse({ success: false, message: "Invalid request body." }, 400);
   }
+
+  // Honeypot check
+  if (data.website) {
+    return jsonResponse({ success: true });
+  }
+
+  const firstName = sanitize(data.firstName, 100);
+  const lastName = sanitize(data.lastName, 100);
+  const email = String(data.email || "").trim().slice(0, 255);
+
+  if (!firstName || !lastName || !email) {
+    return jsonResponse({ success: false, message: "Name and email are required." }, 400);
+  }
+
+  if (!validateEmail(email)) {
+    return jsonResponse({ success: false, message: "Invalid email address." }, 400);
+  }
+
+  if (!validatePhone(data.phone || "")) {
+    return jsonResponse({ success: false, message: "Invalid phone number." }, 400);
+  }
+
+  if (!validateZip(data.zip || "")) {
+    return jsonResponse({ success: false, message: "Invalid ZIP code." }, 400);
+  }
+
+  const services = (data.services || []).filter((s) => ALLOWED_SERVICES.includes(s));
+  if (services.length === 0) {
+    return jsonResponse({ success: false, message: "At least one service is required." }, 400);
+  }
+
+  // Build JSON payload for Web3Forms
+  const submission = {
+    access_key: env.WEB3FORMS_ACCESS_KEY,
+    subject: `New Client Intake: ${firstName} ${lastName}`,
+    from_name: `${firstName} ${lastName}`,
+    replyto: email,
+    "First Name": firstName,
+    "Last Name": lastName,
+    Email: email,
+    Phone: sanitize(data.phone, 30) || "Not provided",
+    "Preferred Contact": sanitize(data.preferredContact || "email", 20),
+    Address: sanitize(data.address, 200) || "Not provided",
+    City: sanitize(data.city, 100) || "Not provided",
+    State: sanitize(data.state, 50) || "Not provided",
+    ZIP: sanitize(data.zip, 15) || "Not provided",
+    "Services Requested": services.join(", "),
+    Timeline: sanitize(data.timeline, 50) || "Not specified",
+    "Budget Range": sanitize(data.budget, 50) || "Not specified",
+    "Referral Source": sanitize(data.referralSource, 200) || "Not specified",
+    "Additional Information": sanitize(data.additionalInfo, 2000) || "None provided",
+  };
+
+  // Include hCaptcha token if present
+  if (data["h-captcha-response"]) {
+    submission["h-captcha-response"] = data["h-captcha-response"];
+  }
+
+  let response;
+  try {
+    response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(submission),
+    });
+  } catch (e) {
+    return jsonResponse({ success: false, message: "Could not reach form service." }, 502);
+  }
+
+  // Read response as text first to avoid JSON parse crash
+  const responseText = await response.text();
+
+  let result;
+  try {
+    result = JSON.parse(responseText);
+  } catch (e) {
+    return jsonResponse({
+      success: false,
+      message: "Form service returned an unexpected response.",
+      debug: responseText.slice(0, 200),
+    }, 502);
+  }
+
+  return jsonResponse(result, response.ok ? 200 : 500);
 }
