@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Send, User, Home, Briefcase, Heart, Check, Mail, Phone, MessageSquare, Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { intakeSchema, ALLOWED_SERVICES, type IntakeFormData } from "@/lib/intake-schema";
 import { toast } from "@/hooks/use-toast";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const serviceOptions = [...ALLOWED_SERVICES];
 
@@ -53,6 +54,9 @@ const IntakeForm = () => {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   // Honeypot field - hidden from real users
   const [honeypot, setHoneypot] = useState("");
+  // hCaptcha
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef<HCaptcha>(null);
 
   const set = (field: keyof typeof initialForm, value: string | string[]) => {
     setForm((f) => ({ ...f, [field]: value }));
@@ -139,6 +143,11 @@ const IntakeForm = () => {
       return;
     }
 
+    if (!captchaToken) {
+      toast({ title: "Please complete the captcha verification.", variant: "destructive" });
+      return;
+    }
+
     setSubmitting(true);
     try {
       const response = await fetch("/api/submit-intake", {
@@ -146,8 +155,8 @@ const IntakeForm = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...result.data,
-          // Include honeypot — server will silently discard if filled
           website: honeypot,
+          "h-captcha-response": captchaToken,
         }),
       });
 
@@ -170,6 +179,9 @@ const IntakeForm = () => {
       });
     } finally {
       setSubmitting(false);
+      // Reset captcha for retry
+      setCaptchaToken("");
+      captchaRef.current?.resetCaptcha();
     }
   };
 
@@ -591,6 +603,17 @@ const IntakeForm = () => {
                       onChange={(e) => set("additionalInfo", e.target.value)}
                       className={inputClass + " resize-none"}
                       maxLength={2000}
+                    />
+                  </div>
+                  {/* hCaptcha */}
+                  <div className="pt-2">
+                    <HCaptcha
+                      sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
+                      reCaptchaCompat={false}
+                      theme="dark"
+                      onVerify={(token) => setCaptchaToken(token)}
+                      onExpire={() => setCaptchaToken("")}
+                      ref={captchaRef}
                     />
                   </div>
                 </div>
