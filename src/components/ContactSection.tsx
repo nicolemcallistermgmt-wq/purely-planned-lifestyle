@@ -18,9 +18,9 @@ const ContactSection = () => {
     <section id="contact" className="section-padding bg-charcoal" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center mb-16"
         >
           <p className="text-xs tracking-[0.3em] uppercase text-gold font-body mb-4">Get In Touch</p>
@@ -34,9 +34,9 @@ const ContactSection = () => {
         <div className="grid lg:grid-cols-5 gap-12">
           {/* Form */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             className="lg:col-span-3"
           >
             <h3 className="font-heading text-xl text-cream mb-2">Quick Inquiry</h3>
@@ -88,32 +88,51 @@ const ContactSection = () => {
           </motion.div>
 
           {/* Sidebar info */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="lg:col-span-2 space-y-8"
-          >
-            <div className="border border-charcoal-light p-6">
-              <Mail className="w-5 h-5 text-gold mb-3" strokeWidth={1.5} />
-              <h4 className="font-heading text-lg text-cream mb-2">Email</h4>
-              <a href="mailto:info@purelyplannedconsulting.com" className="text-sm text-hero-muted font-body hover:text-gold transition-colors">
-                info@purelyplannedconsulting.com
-              </a>
-            </div>
+          <div className="lg:col-span-2 space-y-8">
+            {[
+              {
+                icon: Mail,
+                title: "Email",
+                content: (
+                  <a href="mailto:info@purelyplannedconsulting.com" className="text-sm text-hero-muted font-body hover:text-gold transition-colors">
+                    info@purelyplannedconsulting.com
+                  </a>
+                ),
+              },
+              {
+                icon: FileText,
+                title: "New Clients",
+                content: (
+                  <>
+                    <a href="/intake" className="text-sm text-gold font-body hover:text-gold-light transition-colors">
+                      Complete Intake Form →
+                    </a>
+                    <p className="text-xs text-hero-muted/60 font-body mt-2">
+                      Comprehensive form ensures we understand your needs
+                    </p>
+                  </>
+                ),
+              },
+            ].map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={{ opacity: 0, x: 30 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.5 + i * 0.12, ease: "easeOut" }}
+                className="border border-charcoal-light p-6 hover:border-gold/30 transition-colors duration-300"
+              >
+                <card.icon className="w-5 h-5 text-gold mb-3" strokeWidth={1.5} />
+                <h4 className="font-heading text-lg text-cream mb-2">{card.title}</h4>
+                {card.content}
+              </motion.div>
+            ))}
 
-            <div className="border border-charcoal-light p-6">
-              <FileText className="w-5 h-5 text-gold mb-3" strokeWidth={1.5} />
-              <h4 className="font-heading text-lg text-cream mb-2">New Clients</h4>
-              <a href="/intake" className="text-sm text-gold font-body hover:text-gold-light transition-colors">
-                Complete Intake Form →
-              </a>
-              <p className="text-xs text-hero-muted/60 font-body mt-2">
-                Comprehensive form ensures we understand your needs
-              </p>
-            </div>
-
-            <div className="border border-charcoal-light p-6">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.74, ease: "easeOut" }}
+              className="border border-charcoal-light p-6 hover:border-gold/30 transition-colors duration-300"
+            >
               <h4 className="font-heading text-lg text-cream mb-3">Our Specialties</h4>
               <ul className="space-y-2">
                 {["Lifestyle Consulting", "Organizing", "Concierge & Snow Bird Services", "Relocation & Event Hospitality"].map((s) => (
@@ -122,8 +141,8 @@ const ContactSection = () => {
                   </li>
                 ))}
               </ul>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

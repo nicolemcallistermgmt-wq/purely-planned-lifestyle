@@ -56,9 +56,9 @@ const ServicesSection = () => {
     <section id="services" className="section-padding bg-charcoal" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center mb-16"
         >
           <p className="text-xs tracking-[0.3em] uppercase text-gold font-body mb-4">What We Do</p>
@@ -73,12 +73,13 @@ const ServicesSection = () => {
           {services.map((s, i) => (
             <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + i * 0.1 }}
-              className="border border-charcoal-light p-8 hover:border-gold/40 transition-all duration-500 group"
+              initial={{ opacity: 0, y: 50, scale: 0.96 }}
+              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.7, delay: 0.15 + i * 0.1, ease: "easeOut" }}
+              whileHover={{ y: -4, transition: { duration: 0.25 } }}
+              className="border border-charcoal-light p-8 hover:border-gold/40 hover:bg-charcoal-light/30 transition-all duration-500 group"
             >
-              <s.icon className="w-7 h-7 text-gold mb-5 group-hover:scale-110 transition-transform" strokeWidth={1.5} />
+              <s.icon className="w-7 h-7 text-gold mb-5 group-hover:scale-110 transition-transform duration-300" strokeWidth={1.5} />
               <h3 className="font-heading text-xl text-cream mb-3">{s.title}</h3>
               <p className="text-sm text-hero-muted font-body mb-5">{s.desc}</p>
               <ul className="space-y-2">

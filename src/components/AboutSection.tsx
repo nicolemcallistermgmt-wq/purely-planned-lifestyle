@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Shield, Layers, Sparkles } from "lucide-react";
 
@@ -17,9 +16,9 @@ const AboutSection = () => {
     <section id="about" className="section-padding bg-background" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center mb-16"
         >
           <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">About Us</p>
@@ -33,9 +32,9 @@ const AboutSection = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="max-w-3xl mx-auto mb-20"
         >
           <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed text-center">
@@ -54,12 +53,12 @@ const AboutSection = () => {
           {values.map((v, i) => (
             <motion.div
               key={v.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 + i * 0.15 }}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 + i * 0.15, ease: "easeOut" }}
               className="text-center group"
             >
-              <div className="w-14 h-14 mx-auto mb-5 flex items-center justify-center border border-accent/30 group-hover:border-accent transition-colors">
+              <div className="w-14 h-14 mx-auto mb-5 flex items-center justify-center border border-accent/30 group-hover:border-accent group-hover:scale-110 transition-all duration-300">
                 <v.icon className="w-6 h-6 text-accent" strokeWidth={1.5} />
               </div>
               <h3 className="font-heading text-lg text-foreground mb-2">{v.title}</h3>

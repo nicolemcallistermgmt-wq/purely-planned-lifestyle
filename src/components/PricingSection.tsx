@@ -40,9 +40,9 @@ const PricingSection = () => {
     <section id="pricing" className="section-padding bg-background" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center mb-16"
         >
           <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">Investment</p>
@@ -57,9 +57,10 @@ const PricingSection = () => {
           {plans.map((plan, i) => (
             <motion.div
               key={plan.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + i * 0.15 }}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.65, delay: 0.15 + i * 0.12, ease: "easeOut" }}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
               className={`relative p-8 border transition-all ${
                 plan.featured
                   ? "border-accent bg-secondary"
@@ -99,9 +100,9 @@ const PricingSection = () => {
         </div>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          initial={{ opacity: 0, y: 15 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.8, ease: "easeOut" }}
           className="text-center text-sm text-muted-foreground font-body mt-12 max-w-3xl mx-auto"
         >
           <strong className="text-foreground">3-hour minimum per session.</strong> All pricing is customized based on
