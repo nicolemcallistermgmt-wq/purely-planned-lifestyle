@@ -107,7 +107,7 @@ export async function onRequestPost(context) {
     formData.append("Referral Source", sanitize(data.referralSource, 200) || "Not specified");
     formData.append("Additional Information", sanitize(data.additionalInfo, 2000) || "None provided");
 
-    console.log("Using access key starting with:", env.WEB3FORMS_ACCESS_KEY?.substring(0, 8) + "...");
+    console.log("Access key present:", !!env.WEB3FORMS_ACCESS_KEY);
 
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
