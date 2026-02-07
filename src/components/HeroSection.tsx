@@ -1,15 +1,12 @@
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
-import heroBg from "@/assets/hero-bg.jpg";
+import luxuryInterior from "@/assets/luxury-interior.mp4";
+import VideoBackground from "./VideoBackground";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0">
-        <img src={heroBg} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-charcoal/75" />
-      </div>
+      <VideoBackground src={luxuryInterior} overlay="bg-charcoal/70" />
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.div
