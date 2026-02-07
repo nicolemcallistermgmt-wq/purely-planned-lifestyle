@@ -16,7 +16,7 @@ const HeroSection = () => {
     <section ref={ref} className="relative min-h-screen-dynamic flex items-center justify-center overflow-hidden hero-section">
       {/* Parallax background */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
-        <img src={heroBg} alt="Elegant home interior" className="w-full h-full object-cover scale-110" loading="eager" fetchPriority="high" />
+        <img src={heroBg} alt="" className="w-full h-full object-cover scale-110" loading="eager" fetchPriority="high" width={1534} height={1080} />
       </motion.div>
       <motion.div className="absolute inset-0 bg-charcoal" style={{ opacity: overlayOpacity }} />
 
@@ -31,6 +31,9 @@ const HeroSection = () => {
             src={logo}
             alt="Purely Planned Consulting"
             className="w-28 h-28 md:w-36 md:h-36 mx-auto rounded-xl shadow-2xl bg-cream p-3"
+            width={144}
+            height={144}
+            loading="eager"
           />
         </motion.div>
 
