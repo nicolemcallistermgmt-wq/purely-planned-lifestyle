@@ -42,7 +42,7 @@ const ContactSection = () => {
             <h3 className="font-heading text-xl text-cream mb-2">Quick Inquiry</h3>
             <p className="text-sm text-hero-muted font-body mb-6">
               For general questions, use this form. New clients should complete our{" "}
-              <a href="/intake.html" className="text-gold hover:underline">comprehensive intake form</a>.
+              <a href="/intake" className="text-gold hover:underline">comprehensive intake form</a>.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
@@ -105,7 +105,7 @@ const ContactSection = () => {
             <div className="border border-charcoal-light p-6">
               <FileText className="w-5 h-5 text-gold mb-3" strokeWidth={1.5} />
               <h4 className="font-heading text-lg text-cream mb-2">New Clients</h4>
-              <a href="/intake.html" className="text-sm text-gold font-body hover:text-gold-light transition-colors">
+              <a href="/intake" className="text-sm text-gold font-body hover:text-gold-light transition-colors">
                 Complete Intake Form →
               </a>
               <p className="text-xs text-hero-muted/60 font-body mt-2">
