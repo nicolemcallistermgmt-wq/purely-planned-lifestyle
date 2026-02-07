@@ -1,17 +1,53 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, FileText } from "lucide-react";
+import { Mail, FileText, Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = `mailto:info@purelyplannedconsulting.com?subject=Inquiry from ${formData.name}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n${formData.message}`
-    )}`;
+    setSubmitting(true);
+    try {
+      const body = new FormData();
+      body.append("access_key", "db4d914c-862c-4068-b930-1b34baaf4951");
+      body.append("subject", `Quick Inquiry from ${formData.name}`);
+      body.append("from_name", formData.name);
+      body.append("replyto", formData.email);
+      body.append("Name", formData.name);
+      body.append("Email", formData.email);
+      body.append("Phone", formData.phone || "Not provided");
+      body.append("Message", formData.message);
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body,
+      });
+
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        toast({ title: "Submission failed", description: "Unexpected server response.", variant: "destructive" });
+        return;
+      }
+
+      if (data.success) {
+        toast({ title: "Message sent!", description: "We'll be in touch shortly." });
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        toast({ title: "Submission failed", description: data.message || "Please try again.", variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Network error", description: "Please check your connection and try again.", variant: "destructive" });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -80,9 +116,11 @@ const ContactSection = () => {
               />
               <button
                 type="submit"
-                className="px-8 py-3 bg-gold text-primary font-body text-sm tracking-[0.15em] uppercase hover:bg-gold-light transition-colors"
+                disabled={submitting}
+                className="px-8 py-3 bg-gold text-primary font-body text-sm tracking-[0.15em] uppercase hover:bg-gold-light transition-colors disabled:opacity-50 flex items-center gap-2"
               >
-                Send Message
+                {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                {submitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </motion.div>
