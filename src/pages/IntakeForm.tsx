@@ -150,30 +150,14 @@ const IntakeForm = () => {
 
     setSubmitting(true);
     try {
-      const formData = new FormData();
-      formData.append("access_key", "db4d914c-862c-4068-b930-1b34baaf4951");
-      formData.append("subject", `New Client Intake: ${result.data.firstName} ${result.data.lastName}`);
-      formData.append("from_name", `${result.data.firstName} ${result.data.lastName}`);
-      formData.append("replyto", result.data.email);
-      formData.append("First Name", result.data.firstName);
-      formData.append("Last Name", result.data.lastName);
-      formData.append("Email", result.data.email);
-      formData.append("Phone", result.data.phone || "Not provided");
-      formData.append("Preferred Contact", result.data.preferredContact || "email");
-      formData.append("Address", result.data.address || "Not provided");
-      formData.append("City", result.data.city || "Not provided");
-      formData.append("State", result.data.state || "Not provided");
-      formData.append("ZIP", result.data.zip || "Not provided");
-      formData.append("Services Requested", result.data.services.join(", "));
-      formData.append("Timeline", result.data.timeline || "Not specified");
-      formData.append("Budget Range", result.data.budget || "Not specified");
-      formData.append("Referral Source", result.data.referralSource || "Not specified");
-      formData.append("Additional Information", result.data.additionalInfo || "None provided");
-      formData.append("h-captcha-response", captchaToken);
-
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/submit-form", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "intake",
+          ...result.data,
+          "h-captcha-response": captchaToken,
+        }),
       });
 
       const text = await response.text();
