@@ -31,11 +31,9 @@ const Navigation = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16 md:h-20">
-        {/* Logo/brand removed per client request */}
-
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-center h-16 md:h-20">
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center justify-center gap-10">
           {navLinks.map((link) => (
             <a
               key={link.label}
