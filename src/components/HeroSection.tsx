@@ -21,10 +21,21 @@ const HeroSection = () => {
       <motion.div className="absolute inset-0 bg-charcoal" style={{ opacity: overlayOpacity }} />
 
       <div className="relative z-10 text-center px-5 max-w-4xl mx-auto pt-16 pb-8 md:pt-0 md:pb-0">
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-4xl md:text-6xl lg:text-7xl font-heading font-normal text-hero-foreground mb-8 leading-tight"
+        >
+          Purely Planned
+          <br />
+          <span className="italic font-light">Consulting</span>
+        </motion.h1>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="mb-10"
         >
           <img
@@ -36,17 +47,6 @@ const HeroSection = () => {
             loading="eager"
           />
         </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-heading font-normal text-hero-foreground mb-6 leading-tight"
-        >
-          Purely Planned
-          <br />
-          <span className="italic font-light">Consulting</span>
-        </motion.h1>
 
         <motion.div
           initial={{ opacity: 0 }}
