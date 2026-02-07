@@ -1,17 +1,15 @@
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
-import slide1 from "@/assets/slide-1.jpg";
-import slide2 from "@/assets/slide-2.jpg";
-import slide3 from "@/assets/slide-3.jpg";
-import slide4 from "@/assets/slide-4.jpg";
-import ImageSlideshow from "./ImageSlideshow";
-
-const heroImages = [slide1, slide2, slide3, slide4];
+import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
-      <ImageSlideshow images={heroImages} interval={7000} overlay="bg-charcoal/70" />
+      {/* Background image with overlay */}
+      <div className="absolute inset-0">
+        <img src={heroBg} alt="" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-charcoal/75" />
+      </div>
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.div
