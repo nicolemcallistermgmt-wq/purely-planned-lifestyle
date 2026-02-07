@@ -108,16 +108,6 @@ const ContactSection = () => {
                 {card.content}
               </motion.div>
             ))}
-            <motion.div initial={{ opacity: 0, x: 30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6, delay: 0.74, ease: "easeOut" }} className="border border-charcoal-light p-6 hover:border-gold/30 transition-colors duration-300">
-              <h4 className="font-heading text-lg text-cream mb-3">Our Specialties</h4>
-              <ul className="space-y-2">
-                {["Lifestyle Consulting", "Organizing", "Concierge & Snow Bird Services", "Relocation & Event Hospitality"].map((s) => (
-                  <li key={s} className="text-sm text-hero-muted font-body flex items-center gap-2">
-                    <span className="text-gold text-[6px]">●</span> {s}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
           </div>
         </div>
       </div>
