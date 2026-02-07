@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Send, User, Home, Briefcase, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 interface FormData {
   // Personal
@@ -155,7 +156,10 @@ const IntakeForm = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      <Helmet>
+        <title>Client Intake Form | Purely Planned Consulting</title>
+        <meta name="description" content="Submit your intake form to get started with Purely Planned Consulting's lifestyle management and home organization services." />
+      </Helmet>
       <div className="bg-charcoal border-b border-charcoal-light">
         <div className="max-w-3xl mx-auto px-6 py-6 flex items-center justify-between">
           <Link
