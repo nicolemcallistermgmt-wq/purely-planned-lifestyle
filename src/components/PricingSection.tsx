@@ -41,8 +41,8 @@ const PricingSection = () => {
     <section id="commitment" className="section-padding bg-background" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center mb-16"
         >
@@ -58,8 +58,8 @@ const PricingSection = () => {
           {plans.map((plan, i) => (
             <motion.div
               key={plan.title}
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.65, delay: 0.15 + i * 0.12, ease: "easeOut" }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
               className={`relative p-8 border transition-all duration-500 group ${

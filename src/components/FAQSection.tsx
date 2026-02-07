@@ -67,8 +67,8 @@ const FAQSection = () => {
     <section id="faq" className="section-padding bg-charcoal" ref={ref}>
       <div className="max-w-3xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center mb-12"
         >
