@@ -52,7 +52,7 @@ const Navigation = () => {
             </a>
           ))}
           <a
-            href="/intake.html"
+            href="/intake"
             className="text-xs tracking-[0.2em] uppercase font-body font-medium px-5 py-2.5 border border-accent text-accent hover:bg-accent hover:text-primary-foreground transition-all"
           >
             Client Intake
@@ -89,7 +89,7 @@ const Navigation = () => {
                 </a>
               ))}
               <a
-                href="/intake.html"
+                href="/intake"
                 className="text-sm tracking-[0.15em] uppercase font-body px-5 py-2.5 border border-accent text-accent text-center hover:bg-accent hover:text-primary-foreground transition-all mt-2"
               >
                 Client Intake
