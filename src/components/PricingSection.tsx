@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Check } from "lucide-react";
+import GoldDivider from "./GoldDivider";
 
 const plans = [
   {
@@ -47,7 +48,7 @@ const PricingSection = () => {
         >
           <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">Investment</p>
           <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-6">Transparent Pricing</h2>
-          <div className="h-px w-16 bg-accent mx-auto mb-6" />
+          <GoldDivider className="mb-6" />
           <p className="text-base md:text-lg text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Professional services with clear, straightforward rates
           </p>
@@ -61,10 +62,10 @@ const PricingSection = () => {
               animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{ duration: 0.65, delay: 0.15 + i * 0.12, ease: "easeOut" }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className={`relative p-8 border transition-all ${
+              className={`relative p-8 border transition-all duration-500 group ${
                 plan.featured
-                  ? "border-accent bg-secondary"
-                  : "border-border hover:border-accent/40"
+                  ? "border-accent bg-secondary hover:shadow-[0_0_30px_-5px_hsl(var(--accent)/0.3)]"
+                  : "border-border hover:border-accent/40 hover:shadow-[0_0_25px_-5px_hsl(var(--accent)/0.15)]"
               }`}
             >
               {plan.featured && (
@@ -80,17 +81,17 @@ const PricingSection = () => {
               <ul className="space-y-3 mb-8">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-start gap-2.5 text-sm text-muted-foreground font-body">
-                    <Check className="w-4 h-4 text-accent mt-0.5 shrink-0" strokeWidth={2} />
+                    <Check className="w-4 h-4 text-accent mt-0.5 shrink-0 group-hover:scale-110 transition-transform duration-300" strokeWidth={2} />
                     {f}
                   </li>
                 ))}
               </ul>
               <a
                 href={plan.href}
-                className={`block text-center px-6 py-3 text-sm tracking-[0.15em] uppercase font-body transition-colors ${
+                className={`block text-center px-6 py-3 text-sm tracking-[0.15em] uppercase font-body transition-all duration-300 ${
                   plan.featured
-                    ? "bg-accent text-primary hover:bg-gold-light"
-                    : "border border-accent text-accent hover:bg-accent hover:text-primary"
+                    ? "bg-accent text-primary hover:bg-gold-light hover:shadow-[0_4px_15px_-3px_hsl(var(--accent)/0.4)]"
+                    : "border border-accent text-accent hover:bg-accent hover:text-primary hover:shadow-[0_4px_15px_-3px_hsl(var(--accent)/0.3)]"
                 }`}
               >
                 {plan.cta}

@@ -3,22 +3,53 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Home", href: "#" },
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "#", section: "" },
+  { label: "About", href: "#about", section: "about" },
+  { label: "Services", href: "#services", section: "services" },
+  { label: "Pricing", href: "#pricing", section: "pricing" },
+  { label: "Contact", href: "#contact", section: "contact" },
 ];
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 50);
+
+      // Determine active section
+      const sections = navLinks
+        .filter((l) => l.section)
+        .map((l) => ({
+          id: l.section,
+          el: document.getElementById(l.section),
+        }))
+        .filter((s) => s.el);
+
+      let current = "";
+      for (const s of sections) {
+        const rect = s.el!.getBoundingClientRect();
+        if (rect.top <= 200) current = s.id;
+      }
+      setActiveSection(window.scrollY < 300 ? "" : current);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const linkClass = (section: string) => {
+    const isActive = activeSection === section || (!activeSection && !section);
+    return `text-xs tracking-[0.2em] uppercase font-body font-medium transition-colors ${
+      isActive
+        ? "text-accent"
+        : scrolled
+          ? "text-foreground hover:text-accent"
+          : "text-hero-foreground hover:text-accent"
+    }`;
+  };
 
   return (
     <motion.nav
@@ -35,13 +66,7 @@ const Navigation = () => {
         {/* Desktop */}
         <div className="hidden md:flex items-center justify-between w-full">
           {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={`text-xs tracking-[0.2em] uppercase font-body font-medium transition-colors hover:text-accent ${
-                scrolled ? "text-foreground" : "text-hero-foreground"
-              }`}
-            >
+            <a key={link.label} href={link.href} className={linkClass(link.section)}>
               {link.label}
             </a>
           ))}
@@ -77,7 +102,11 @@ const Navigation = () => {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-sm tracking-[0.15em] uppercase font-body text-foreground hover:text-accent transition-colors"
+                  className={`text-sm tracking-[0.15em] uppercase font-body transition-colors ${
+                    activeSection === link.section
+                      ? "text-accent"
+                      : "text-foreground hover:text-accent"
+                  }`}
                 >
                   {link.label}
                 </a>

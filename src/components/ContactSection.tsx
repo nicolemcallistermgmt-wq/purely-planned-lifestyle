@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { Mail, FileText, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import GoldDivider from "./GoldDivider";
 
 const ContactSection = () => {
   const ref = useRef(null);
@@ -14,12 +15,10 @@ const ContactSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!captchaToken) {
       toast({ title: "Please complete the captcha verification.", variant: "destructive" });
       return;
     }
-
     setSubmitting(true);
     try {
       const body = new FormData();
@@ -32,14 +31,8 @@ const ContactSection = () => {
       body.append("Phone", formData.phone || "Not provided");
       body.append("Message", formData.message);
       body.append("h-captcha-response", captchaToken);
-
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body,
-      });
-
+      const response = await fetch("https://api.web3forms.com/submit", { method: "POST", body });
       const data = await response.json();
-
       if (data.success) {
         toast({ title: "Message sent!", description: "We'll be in touch shortly." });
         setFormData({ name: "", email: "", phone: "", message: "" });
@@ -66,7 +59,7 @@ const ContactSection = () => {
         >
           <p className="text-xs tracking-[0.3em] uppercase text-gold font-body mb-4">Get In Touch</p>
           <h2 className="text-3xl md:text-5xl font-heading text-cream mb-6">Begin a Conversation</h2>
-          <div className="h-px w-16 bg-gold mx-auto mb-6" />
+          <GoldDivider className="mb-6" />
           <p className="text-base md:text-lg text-hero-muted font-body font-light max-w-2xl mx-auto">
             We welcome the opportunity to discuss how we might be of service.
           </p>
@@ -87,57 +80,15 @@ const ContactSection = () => {
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="Name *"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors"
-                  maxLength={100}
-                />
-                <input
-                  type="email"
-                  placeholder="Email *"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors"
-                  maxLength={255}
-                />
+                <input type="text" placeholder="Name *" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors" maxLength={100} />
+                <input type="email" placeholder="Email *" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors" maxLength={255} />
               </div>
-              <input
-                type="tel"
-                placeholder="Phone"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors"
-                maxLength={30}
-              />
-              <textarea
-                placeholder="Message *"
-                required
-                rows={5}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors resize-none"
-                maxLength={2000}
-              />
+              <input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors" maxLength={30} />
+              <textarea placeholder="Message *" required rows={5} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors resize-none" maxLength={2000} />
               <div className="pt-1">
-                <HCaptcha
-                  sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
-                  reCaptchaCompat={false}
-                  theme="dark"
-                  onVerify={(token) => setCaptchaToken(token)}
-                  onExpire={() => setCaptchaToken("")}
-                  ref={captchaRef}
-                />
+                <HCaptcha sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2" reCaptchaCompat={false} theme="dark" onVerify={(token) => setCaptchaToken(token)} onExpire={() => setCaptchaToken("")} ref={captchaRef} />
               </div>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="px-8 py-3 bg-gold text-primary font-body text-sm tracking-[0.15em] uppercase hover:bg-gold-light transition-colors disabled:opacity-50 flex items-center gap-2"
-              >
+              <button type="submit" disabled={submitting} className="px-8 py-3 bg-gold text-primary font-body text-sm tracking-[0.15em] uppercase hover:bg-gold-light transition-colors disabled:opacity-50 flex items-center gap-2">
                 {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
                 {submitting ? "Sending..." : "Send Message"}
               </button>
@@ -147,49 +98,16 @@ const ContactSection = () => {
           {/* Sidebar info */}
           <div className="lg:col-span-2 space-y-8">
             {[
-              {
-                icon: Mail,
-                title: "Email",
-                content: (
-                  <a href="mailto:info@purelyplannedconsulting.com" className="text-sm text-hero-muted font-body hover:text-gold transition-colors">
-                    info@purelyplannedconsulting.com
-                  </a>
-                ),
-              },
-              {
-                icon: FileText,
-                title: "New Clients",
-                content: (
-                  <>
-                    <a href="/intake" className="text-sm text-gold font-body hover:text-gold-light transition-colors">
-                      Complete Intake Form →
-                    </a>
-                    <p className="text-xs text-hero-muted/60 font-body mt-2">
-                      Comprehensive form ensures we understand your needs
-                    </p>
-                  </>
-                ),
-              },
+              { icon: Mail, title: "Email", content: (<a href="mailto:info@purelyplannedconsulting.com" className="text-sm text-hero-muted font-body hover:text-gold transition-colors">info@purelyplannedconsulting.com</a>) },
+              { icon: FileText, title: "New Clients", content: (<><a href="/intake" className="text-sm text-gold font-body hover:text-gold-light transition-colors">Complete Intake Form →</a><p className="text-xs text-hero-muted/60 font-body mt-2">Comprehensive form ensures we understand your needs</p></>) },
             ].map((card, i) => (
-              <motion.div
-                key={card.title}
-                initial={{ opacity: 0, x: 30 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.5 + i * 0.12, ease: "easeOut" }}
-                className="border border-charcoal-light p-6 hover:border-gold/30 transition-colors duration-300"
-              >
+              <motion.div key={card.title} initial={{ opacity: 0, x: 30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6, delay: 0.5 + i * 0.12, ease: "easeOut" }} className="border border-charcoal-light p-6 hover:border-gold/30 transition-colors duration-300">
                 <card.icon className="w-5 h-5 text-gold mb-3" strokeWidth={1.5} />
                 <h4 className="font-heading text-lg text-cream mb-2">{card.title}</h4>
                 {card.content}
               </motion.div>
             ))}
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.74, ease: "easeOut" }}
-              className="border border-charcoal-light p-6 hover:border-gold/30 transition-colors duration-300"
-            >
+            <motion.div initial={{ opacity: 0, x: 30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6, delay: 0.74, ease: "easeOut" }} className="border border-charcoal-light p-6 hover:border-gold/30 transition-colors duration-300">
               <h4 className="font-heading text-lg text-cream mb-3">Our Specialties</h4>
               <ul className="space-y-2">
                 {["Lifestyle Consulting", "Organizing", "Concierge & Snow Bird Services", "Relocation & Event Hospitality"].map((s) => (

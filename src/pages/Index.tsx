@@ -6,6 +6,7 @@ import ServicesSection from "@/components/ServicesSection";
 import PricingSection from "@/components/PricingSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
@@ -43,6 +44,7 @@ const Index = () => {
       <PricingSection />
       <ContactSection />
       <Footer />
+      <BackToTop />
     </div>
   );
 };
