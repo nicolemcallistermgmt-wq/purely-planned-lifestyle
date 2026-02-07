@@ -86,42 +86,36 @@ export async function onRequestPost(context) {
       return jsonResponse({ success: false, message: "At least one service is required." }, 400);
     }
 
-    const submission = {
-      access_key: env.WEB3FORMS_ACCESS_KEY,
-      subject: `New Client Intake: ${firstName} ${lastName}`,
-      from_name: `${firstName} ${lastName}`,
-      replyto: email,
-      "First Name": firstName,
-      "Last Name": lastName,
-      Email: email,
-      Phone: sanitize(data.phone, 30) || "Not provided",
-      "Preferred Contact": sanitize(data.preferredContact || "email", 20),
-      Address: sanitize(data.address, 200) || "Not provided",
-      City: sanitize(data.city, 100) || "Not provided",
-      State: sanitize(data.state, 50) || "Not provided",
-      ZIP: sanitize(data.zip, 15) || "Not provided",
-      "Services Requested": services.join(", "),
-      Timeline: sanitize(data.timeline, 50) || "Not specified",
-      "Budget Range": sanitize(data.budget, 50) || "Not specified",
-      "Referral Source": sanitize(data.referralSource, 200) || "Not specified",
-      "Additional Information": sanitize(data.additionalInfo, 2000) || "None provided",
-    };
+    // Use FormData format (Web3Forms primary format)
+    const formData = new FormData();
+    formData.append("access_key", env.WEB3FORMS_ACCESS_KEY);
+    formData.append("subject", `New Client Intake: ${firstName} ${lastName}`);
+    formData.append("from_name", `${firstName} ${lastName}`);
+    formData.append("replyto", email);
+    formData.append("First Name", firstName);
+    formData.append("Last Name", lastName);
+    formData.append("Email", email);
+    formData.append("Phone", sanitize(data.phone, 30) || "Not provided");
+    formData.append("Preferred Contact", sanitize(data.preferredContact || "email", 20));
+    formData.append("Address", sanitize(data.address, 200) || "Not provided");
+    formData.append("City", sanitize(data.city, 100) || "Not provided");
+    formData.append("State", sanitize(data.state, 50) || "Not provided");
+    formData.append("ZIP", sanitize(data.zip, 15) || "Not provided");
+    formData.append("Services Requested", services.join(", "));
+    formData.append("Timeline", sanitize(data.timeline, 50) || "Not specified");
+    formData.append("Budget Range", sanitize(data.budget, 50) || "Not specified");
+    formData.append("Referral Source", sanitize(data.referralSource, 200) || "Not specified");
+    formData.append("Additional Information", sanitize(data.additionalInfo, 2000) || "None provided");
+
+    console.log("Using access key starting with:", env.WEB3FORMS_ACCESS_KEY?.substring(0, 8) + "...");
 
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(submission),
+      body: formData,
     });
 
-    const responseText = await response.text();
-    let result;
-    try {
-      result = JSON.parse(responseText);
-    } catch {
-      console.error("Web3Forms returned non-JSON:", responseText);
-      return jsonResponse({ success: false, message: "Form service error. Please try again later." }, 502);
-    }
-    return jsonResponse(result, response.ok ? 200 : 500);
+    const responseData = await response.json();
+    return jsonResponse(responseData, response.ok ? 200 : 500);
   } catch (err) {
     console.error("Function error:", err);
     return jsonResponse({ success: false, message: "Server error. Please try again." }, 500);
