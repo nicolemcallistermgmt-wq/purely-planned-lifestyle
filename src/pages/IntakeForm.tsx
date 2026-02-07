@@ -160,7 +160,19 @@ const IntakeForm = () => {
         }),
       });
 
-      const data = await response.json();
+      let data;
+      const text = await response.text();
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Non-JSON response:", response.status, text);
+        toast({
+          title: "Submission failed",
+          description: "Unexpected server response. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
 
       if (data.success) {
         setSubmitted(true);
@@ -171,7 +183,8 @@ const IntakeForm = () => {
           variant: "destructive",
         });
       }
-    } catch {
+    } catch (err) {
+      console.error("Fetch error:", err);
       toast({
         title: "Network error",
         description: "Please check your connection and try again.",
