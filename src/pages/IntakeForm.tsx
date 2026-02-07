@@ -1,25 +1,21 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowLeft, Send, User, Home, Briefcase, Heart, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, ArrowRight, Send, User, Home, Briefcase, Heart, Check, Mail, Phone, MessageSquare } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 interface FormData {
-  // Personal
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   preferredContact: string;
-  // Address
   address: string;
   city: string;
   state: string;
   zip: string;
-  // Services
   services: string[];
-  // Details
   timeline: string;
   budget: string;
   referralSource: string;
@@ -55,19 +51,26 @@ const serviceOptions = [
 ];
 
 const steps = [
-  { label: "Personal", icon: User },
-  { label: "Location", icon: Home },
-  { label: "Services", icon: Briefcase },
-  { label: "Details", icon: Heart },
+  { label: "Personal", icon: User, description: "Your contact details" },
+  { label: "Location", icon: Home, description: "Where you're based" },
+  { label: "Services", icon: Briefcase, description: "What you need" },
+  { label: "Details", icon: Heart, description: "Project specifics" },
+];
+
+const contactMethods = [
+  { value: "email", icon: Mail, label: "Email" },
+  { value: "phone", icon: Phone, label: "Phone" },
+  { value: "text", icon: MessageSquare, label: "Text" },
 ];
 
 const inputClass =
-  "w-full px-4 py-3 bg-charcoal border border-hero-muted/30 text-cream placeholder-hero-muted/60 font-body text-sm focus:border-gold focus:ring-1 focus:ring-gold/30 focus:outline-none transition-colors rounded-sm";
+  "w-full px-5 py-3.5 bg-charcoal-light/50 border border-hero-muted/20 text-cream placeholder-hero-muted/40 font-body text-sm focus:border-gold/60 focus:ring-1 focus:ring-gold/20 focus:outline-none transition-all duration-300 rounded";
 
 const IntakeForm = () => {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormData>(initialForm);
   const [submitted, setSubmitted] = useState(false);
+  const [direction, setDirection] = useState(1);
 
   const set = (field: keyof FormData, value: string | string[]) =>
     setForm((f) => ({ ...f, [field]: value }));
@@ -85,6 +88,23 @@ const IntakeForm = () => {
     if (step === 1) return true;
     if (step === 2) return form.services.length > 0;
     return true;
+  };
+
+  const goNext = () => {
+    setDirection(1);
+    setStep((s) => s + 1);
+  };
+
+  const goBack = () => {
+    setDirection(-1);
+    setStep((s) => s - 1);
+  };
+
+  const goToStep = (i: number) => {
+    if (i < step) {
+      setDirection(-1);
+      setStep(i);
+    }
   };
 
   const handleSubmit = () => {
@@ -122,33 +142,49 @@ const IntakeForm = () => {
     setSubmitted(true);
   };
 
+  const slideVariants = {
+    enter: (d: number) => ({ opacity: 0, x: d > 0 ? 60 : -60 }),
+    center: { opacity: 1, x: 0 },
+    exit: (d: number) => ({ opacity: 0, x: d > 0 ? -60 : 60 }),
+  };
+
   if (submitted) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-6">
+      <div className="min-h-screen bg-charcoal flex items-center justify-center px-6">
+        <Helmet>
+          <title>Thank You | Purely Planned Consulting</title>
+        </Helmet>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center max-w-md"
         >
-          <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-6">
-            <Send className="w-7 h-7 text-gold" />
-          </div>
-          <h1 className="font-heading text-3xl text-cream mb-4">Thank You</h1>
-          <p className="text-hero-muted font-body mb-2">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="w-20 h-20 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center mx-auto mb-8"
+          >
+            <Check className="w-8 h-8 text-gold" />
+          </motion.div>
+          <h1 className="font-heading text-4xl text-cream mb-4">Thank You</h1>
+          <div className="h-px w-12 bg-gold mx-auto mb-6" />
+          <p className="text-hero-muted font-body leading-relaxed mb-2">
             Your email client should have opened with the intake form details.
-            Please press send in your email app to complete your submission.
+            Please press send to complete your submission.
           </p>
-          <p className="text-hero-muted/60 font-body text-sm mb-8">
+          <p className="text-hero-muted/50 font-body text-sm mb-10">
             If your email client didn't open, please email us directly at{" "}
-            <a href="mailto:info@purelyplannedconsulting.com" className="text-gold hover:underline">
+            <a href="mailto:info@purelyplannedconsulting.com" className="text-gold hover:text-gold-light transition-colors">
               info@purelyplannedconsulting.com
             </a>
           </p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-gold font-body text-sm hover:text-gold-light transition-colors"
+            className="inline-flex items-center gap-2 text-gold font-body text-sm hover:text-gold-light transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Home
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Home
           </Link>
         </motion.div>
       </div>
@@ -156,35 +192,52 @@ const IntakeForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-charcoal">
       <Helmet>
         <title>Client Intake Form | Purely Planned Consulting</title>
         <meta name="description" content="Submit your intake form to get started with Purely Planned Consulting's lifestyle management and home organization services." />
       </Helmet>
-      <div className="bg-charcoal border-b border-charcoal-light">
-        <div className="px-4 py-6">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-hero-muted hover:text-cream font-body text-sm transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back
-          </Link>
-        </div>
+
+      {/* Back link */}
+      <div className="px-6 py-5">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-hero-muted/60 hover:text-cream font-body text-sm transition-colors group"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back
+        </Link>
       </div>
 
-      {/* Title */}
-      <div className="max-w-3xl mx-auto px-6 pt-12 pb-8 text-center">
-        <p className="text-xs tracking-[0.3em] uppercase text-gold font-body mb-3">New Client</p>
-        <h1 className="text-3xl md:text-4xl font-heading text-cream mb-3">Intake Form</h1>
-        <div className="h-px w-16 bg-gold mx-auto mb-4" />
-        <p className="text-hero-muted font-body text-sm max-w-lg mx-auto">
-          Please complete this form so we can understand your needs and provide personalized service.
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-2xl mx-auto px-6 pt-4 pb-10 text-center"
+      >
+        <p className="text-[11px] tracking-[0.35em] uppercase text-gold font-body mb-4">New Client</p>
+        <h1 className="text-3xl md:text-5xl font-heading text-cream mb-4">Intake Form</h1>
+        <div className="h-px w-16 bg-gold/60 mx-auto mb-5" />
+        <p className="text-hero-muted/70 font-body text-sm max-w-md mx-auto leading-relaxed">
+          Complete this form so we can understand your needs and provide personalized service.
         </p>
-      </div>
+      </motion.div>
 
       {/* Step indicator */}
-      <div className="max-w-3xl mx-auto px-6 mb-10">
-        <div className="flex items-center justify-center gap-2 md:gap-4">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.15 }}
+        className="max-w-2xl mx-auto px-6 mb-10"
+      >
+        <div className="flex items-center justify-between relative">
+          {/* Progress line */}
+          <div className="absolute top-5 left-0 right-0 h-px bg-charcoal-light mx-10" />
+          <div
+            className="absolute top-5 left-0 h-px bg-gold/40 mx-10 transition-all duration-500"
+            style={{ width: `${(step / (steps.length - 1)) * 100}%` }}
+          />
+
           {steps.map((s, i) => {
             const Icon = s.icon;
             const active = i === step;
@@ -192,247 +245,343 @@ const IntakeForm = () => {
             return (
               <button
                 key={s.label}
-                onClick={() => i < step && setStep(i)}
-                className={`flex items-center gap-1.5 px-3 py-2 text-xs font-body uppercase tracking-wider transition-colors ${
-                  active
-                    ? "text-gold border-b border-gold"
-                    : done
-                    ? "text-cream/70 cursor-pointer hover:text-cream"
-                    : "text-hero-muted/40 cursor-default"
+                onClick={() => goToStep(i)}
+                className={`relative z-10 flex flex-col items-center gap-2 transition-all duration-300 ${
+                  done ? "cursor-pointer" : i > step ? "cursor-default" : "cursor-default"
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
-                <span className="hidden sm:inline">{s.label}</span>
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    active
+                      ? "bg-gold/15 border-2 border-gold text-gold shadow-[0_0_20px_rgba(184,149,92,0.15)]"
+                      : done
+                      ? "bg-gold text-charcoal border-2 border-gold"
+                      : "bg-charcoal-light/50 border border-hero-muted/20 text-hero-muted/40"
+                  }`}
+                >
+                  {done ? (
+                    <Check className="w-4 h-4" strokeWidth={2.5} />
+                  ) : (
+                    <Icon className="w-4 h-4" strokeWidth={1.5} />
+                  )}
+                </div>
+                <div className="text-center">
+                  <p className={`text-[10px] uppercase tracking-widest font-body transition-colors duration-300 ${
+                    active ? "text-gold" : done ? "text-cream/60" : "text-hero-muted/30"
+                  }`}>
+                    {s.label}
+                  </p>
+                  <p className={`text-[10px] font-body mt-0.5 hidden sm:block transition-colors duration-300 ${
+                    active ? "text-hero-muted/60" : "text-transparent"
+                  }`}>
+                    {s.description}
+                  </p>
+                </div>
               </button>
             );
           })}
         </div>
-      </div>
+      </motion.div>
 
-      {/* Form steps */}
-      <div className="max-w-3xl mx-auto px-6 pb-20">
-        <motion.div
-          key={step}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {step === 0 && (
-            <div className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="First Name *"
-                  required
-                  value={form.firstName}
-                  onChange={(e) => set("firstName", e.target.value)}
-                  className={inputClass}
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name *"
-                  required
-                  value={form.lastName}
-                  onChange={(e) => set("lastName", e.target.value)}
-                  className={inputClass}
-                />
-              </div>
-              <input
-                type="email"
-                placeholder="Email Address *"
-                required
-                value={form.email}
-                onChange={(e) => set("email", e.target.value)}
-                className={inputClass}
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                value={form.phone}
-                onChange={(e) => set("phone", e.target.value)}
-                className={inputClass}
-              />
-              <div>
-                <label className="block text-xs text-hero-muted font-body mb-2">Preferred Contact Method</label>
-                <div className="flex gap-4">
-                  {["email", "phone", "text"].map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => set("preferredContact", m)}
-                      className={`px-4 py-2 text-xs uppercase tracking-wider font-body border transition-colors ${
-                        form.preferredContact === m
-                          ? "border-gold text-gold"
-                          : "border-charcoal-light text-hero-muted/60 hover:border-hero-muted/40"
-                      }`}
-                    >
-                      {m}
-                    </button>
-                  ))}
+      {/* Form card */}
+      <div className="max-w-2xl mx-auto px-6 pb-20">
+        <div className="bg-charcoal-light/20 border border-hero-muted/10 rounded-lg p-6 sm:p-10">
+          {/* Step title */}
+          <div className="mb-8">
+            <h2 className="font-heading text-xl text-cream mb-1">{steps[step].label} Information</h2>
+            <p className="text-hero-muted/50 font-body text-xs">{steps[step].description}</p>
+          </div>
+
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={step}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.35, ease: "easeOut" }}
+            >
+              {step === 0 && (
+                <div className="space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">First Name <span className="text-gold">*</span></label>
+                      <input
+                        type="text"
+                        placeholder="Jane"
+                        required
+                        value={form.firstName}
+                        onChange={(e) => set("firstName", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Last Name <span className="text-gold">*</span></label>
+                      <input
+                        type="text"
+                        placeholder="Smith"
+                        required
+                        value={form.lastName}
+                        onChange={(e) => set("lastName", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Email <span className="text-gold">*</span></label>
+                    <input
+                      type="email"
+                      placeholder="jane@example.com"
+                      required
+                      value={form.email}
+                      onChange={(e) => set("email", e.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Phone</label>
+                    <input
+                      type="tel"
+                      placeholder="(555) 000-0000"
+                      value={form.phone}
+                      onChange={(e) => set("phone", e.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-hero-muted/60 font-body mb-3 uppercase tracking-wider">Preferred Contact</label>
+                    <div className="flex gap-3">
+                      {contactMethods.map((m) => {
+                        const Icon = m.icon;
+                        const selected = form.preferredContact === m.value;
+                        return (
+                          <button
+                            key={m.value}
+                            type="button"
+                            onClick={() => set("preferredContact", m.value)}
+                            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-body border rounded transition-all duration-300 ${
+                              selected
+                                ? "border-gold/60 text-gold bg-gold/5"
+                                : "border-hero-muted/15 text-hero-muted/50 hover:border-hero-muted/30 hover:text-hero-muted/70"
+                            }`}
+                          >
+                            <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
+                            {m.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          )}
+              )}
 
-          {step === 1 && (
-            <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Street Address"
-                value={form.address}
-                onChange={(e) => set("address", e.target.value)}
-                className={inputClass}
-              />
-              <div className="grid sm:grid-cols-3 gap-4">
-                <input
-                  type="text"
-                  placeholder="City"
-                  value={form.city}
-                  onChange={(e) => set("city", e.target.value)}
-                  className={inputClass}
-                />
-                <input
-                  type="text"
-                  placeholder="State"
-                  value={form.state}
-                  onChange={(e) => set("state", e.target.value)}
-                  className={inputClass}
-                />
-                <input
-                  type="text"
-                  placeholder="ZIP Code"
-                  value={form.zip}
-                  onChange={(e) => set("zip", e.target.value)}
-                  className={inputClass}
-                />
-              </div>
-            </div>
-          )}
+              {step === 1 && (
+                <div className="space-y-5">
+                  <div>
+                    <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Street Address</label>
+                    <input
+                      type="text"
+                      placeholder="123 Main Street"
+                      value={form.address}
+                      onChange={(e) => set("address", e.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">City</label>
+                      <input
+                        type="text"
+                        placeholder="Naples"
+                        value={form.city}
+                        onChange={(e) => set("city", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">State</label>
+                      <input
+                        type="text"
+                        placeholder="FL"
+                        value={form.state}
+                        onChange={(e) => set("state", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">ZIP Code</label>
+                      <input
+                        type="text"
+                        placeholder="34102"
+                        value={form.zip}
+                        onChange={(e) => set("zip", e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+                  <p className="text-hero-muted/30 font-body text-xs pt-2">
+                    All location fields are optional. Provide what's relevant to your project.
+                  </p>
+                </div>
+              )}
 
-          {step === 2 && (
-            <div>
-              <p className="text-sm text-hero-muted font-body mb-4">
-                Select all services you're interested in *
-              </p>
-              <div className="grid sm:grid-cols-2 gap-3">
-                {serviceOptions.map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => toggleService(s)}
-                    className={`px-4 py-3 text-sm font-body text-left border transition-colors ${
-                      form.services.includes(s)
-                        ? "border-gold text-gold bg-gold/5"
-                        : "border-charcoal-light text-hero-muted hover:border-hero-muted/40"
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+              {step === 2 && (
+                <div>
+                  <p className="text-sm text-hero-muted/60 font-body mb-5">
+                    Select all services you're interested in <span className="text-gold">*</span>
+                  </p>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {serviceOptions.map((s) => {
+                      const selected = form.services.includes(s);
+                      return (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => toggleService(s)}
+                          className={`group relative px-5 py-4 text-sm font-body text-left border rounded transition-all duration-300 ${
+                            selected
+                              ? "border-gold/50 text-cream bg-gold/8"
+                              : "border-hero-muted/15 text-hero-muted/60 hover:border-hero-muted/30 hover:text-hero-muted"
+                          }`}
+                        >
+                          <span className="flex items-center justify-between">
+                            {s}
+                            {selected && (
+                              <motion.span
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="w-5 h-5 rounded-full bg-gold/20 flex items-center justify-center"
+                              >
+                                <Check className="w-3 h-3 text-gold" strokeWidth={2.5} />
+                              </motion.span>
+                            )}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {form.services.length > 0 && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-gold/60 font-body text-xs mt-4"
+                    >
+                      {form.services.length} service{form.services.length > 1 ? "s" : ""} selected
+                    </motion.p>
+                  )}
+                </div>
+              )}
 
-          {step === 3 && (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs text-hero-muted font-body mb-2">Ideal Timeline</label>
-                <Select value={form.timeline} onValueChange={(v) => set("timeline", v)}>
-                  <SelectTrigger className="w-full px-4 py-3 h-auto bg-charcoal border-hero-muted/30 text-cream font-body text-sm rounded-sm focus:ring-gold/30 focus:ring-1 [&>svg]:text-hero-muted">
-                    <SelectValue placeholder="Select timeline..." />
-                  </SelectTrigger>
-                  <SelectContent className="bg-charcoal border-hero-muted/30 z-50">
-                    {[
-                      { value: "ASAP", label: "As soon as possible" },
-                      { value: "1-2 weeks", label: "1–2 weeks" },
-                      { value: "1 month", label: "Within a month" },
-                      { value: "2-3 months", label: "2–3 months" },
-                      { value: "Flexible", label: "Flexible / No rush" },
-                    ].map((o) => (
-                      <SelectItem key={o.value} value={o.value} className="text-cream font-body text-sm hover:bg-charcoal-light focus:bg-charcoal-light focus:text-gold cursor-pointer">
-                        {o.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="block text-xs text-hero-muted font-body mb-2">Budget Range</label>
-                <Select value={form.budget} onValueChange={(v) => set("budget", v)}>
-                  <SelectTrigger className="w-full px-4 py-3 h-auto bg-charcoal border-hero-muted/30 text-cream font-body text-sm rounded-sm focus:ring-gold/30 focus:ring-1 [&>svg]:text-hero-muted">
-                    <SelectValue placeholder="Select budget range..." />
-                  </SelectTrigger>
-                  <SelectContent className="bg-charcoal border-hero-muted/30 z-50">
-                    {[
-                      { value: "Under $500", label: "Under $500" },
-                      { value: "$500 - $1,000", label: "$500 – $1,000" },
-                      { value: "$1,000 - $2,500", label: "$1,000 – $2,500" },
-                      { value: "$2,500 - $5,000", label: "$2,500 – $5,000" },
-                      { value: "$5,000+", label: "$5,000+" },
-                      { value: "Prefer to discuss", label: "Prefer to discuss" },
-                    ].map((o) => (
-                      <SelectItem key={o.value} value={o.value} className="text-cream font-body text-sm hover:bg-charcoal-light focus:bg-charcoal-light focus:text-gold cursor-pointer">
-                        {o.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="block text-xs text-hero-muted font-body mb-2">How did you hear about us?</label>
-                <input
-                  type="text"
-                  placeholder="Referral, social media, search..."
-                  value={form.referralSource}
-                  onChange={(e) => set("referralSource", e.target.value)}
-                  className={inputClass}
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-hero-muted font-body mb-2">Anything else we should know?</label>
-                <textarea
-                  placeholder="Tell us about your project or situation..."
-                  rows={4}
-                  value={form.additionalInfo}
-                  onChange={(e) => set("additionalInfo", e.target.value)}
-                  className={inputClass + " resize-none"}
-                />
-              </div>
-            </div>
-          )}
-        </motion.div>
+              {step === 3 && (
+                <div className="space-y-5">
+                  <div>
+                    <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Ideal Timeline</label>
+                    <Select value={form.timeline} onValueChange={(v) => set("timeline", v)}>
+                      <SelectTrigger className="w-full px-5 py-3.5 h-auto bg-charcoal-light/50 border-hero-muted/20 text-cream font-body text-sm rounded focus:ring-gold/20 focus:ring-1 focus:border-gold/60 [&>svg]:text-hero-muted/40">
+                        <SelectValue placeholder="Select timeline..." />
+                      </SelectTrigger>
+                      <SelectContent className="bg-charcoal border-hero-muted/20 z-50 rounded">
+                        {[
+                          { value: "ASAP", label: "As soon as possible" },
+                          { value: "1-2 weeks", label: "1–2 weeks" },
+                          { value: "1 month", label: "Within a month" },
+                          { value: "2-3 months", label: "2–3 months" },
+                          { value: "Flexible", label: "Flexible / No rush" },
+                        ].map((o) => (
+                          <SelectItem key={o.value} value={o.value} className="text-cream/80 font-body text-sm hover:bg-charcoal-light focus:bg-charcoal-light focus:text-gold cursor-pointer">
+                            {o.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Budget Range</label>
+                    <Select value={form.budget} onValueChange={(v) => set("budget", v)}>
+                      <SelectTrigger className="w-full px-5 py-3.5 h-auto bg-charcoal-light/50 border-hero-muted/20 text-cream font-body text-sm rounded focus:ring-gold/20 focus:ring-1 focus:border-gold/60 [&>svg]:text-hero-muted/40">
+                        <SelectValue placeholder="Select budget range..." />
+                      </SelectTrigger>
+                      <SelectContent className="bg-charcoal border-hero-muted/20 z-50 rounded">
+                        {[
+                          { value: "Under $500", label: "Under $500" },
+                          { value: "$500 - $1,000", label: "$500 – $1,000" },
+                          { value: "$1,000 - $2,500", label: "$1,000 – $2,500" },
+                          { value: "$2,500 - $5,000", label: "$2,500 – $5,000" },
+                          { value: "$5,000+", label: "$5,000+" },
+                          { value: "Prefer to discuss", label: "Prefer to discuss" },
+                        ].map((o) => (
+                          <SelectItem key={o.value} value={o.value} className="text-cream/80 font-body text-sm hover:bg-charcoal-light focus:bg-charcoal-light focus:text-gold cursor-pointer">
+                            {o.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">How did you hear about us?</label>
+                    <input
+                      type="text"
+                      placeholder="Referral, social media, search..."
+                      value={form.referralSource}
+                      onChange={(e) => set("referralSource", e.target.value)}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Anything else we should know?</label>
+                    <textarea
+                      placeholder="Tell us about your project or situation..."
+                      rows={4}
+                      value={form.additionalInfo}
+                      onChange={(e) => set("additionalInfo", e.target.value)}
+                      className={inputClass + " resize-none"}
+                    />
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
 
-        {/* Navigation */}
-        <div className="flex justify-between mt-10">
-          <button
-            type="button"
-            onClick={() => setStep((s) => s - 1)}
-            className={`px-6 py-3 text-xs uppercase tracking-wider font-body border border-charcoal-light text-hero-muted hover:text-cream hover:border-hero-muted/40 transition-colors ${
-              step === 0 ? "invisible" : ""
-            }`}
-          >
-            Back
-          </button>
-
-          {step < 3 ? (
+          {/* Navigation */}
+          <div className="flex items-center justify-between mt-10 pt-6 border-t border-hero-muted/10">
             <button
               type="button"
-              onClick={() => setStep((s) => s + 1)}
-              disabled={!canAdvance()}
-              className="px-8 py-3 bg-gold text-primary font-body text-xs tracking-[0.15em] uppercase hover:bg-gold-light transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              onClick={goBack}
+              className={`flex items-center gap-2 px-5 py-3 text-xs uppercase tracking-wider font-body text-hero-muted/50 hover:text-cream transition-colors rounded group ${
+                step === 0 ? "invisible" : ""
+              }`}
             >
-              Continue
+              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+              Back
             </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="px-8 py-3 bg-gold text-primary font-body text-xs tracking-[0.15em] uppercase hover:bg-gold-light transition-colors flex items-center gap-2"
-            >
-              <Send className="w-3.5 h-3.5" /> Submit
-            </button>
-          )}
+
+            {step < 3 ? (
+              <button
+                type="button"
+                onClick={goNext}
+                disabled={!canAdvance()}
+                className="flex items-center gap-2 px-8 py-3 bg-gold text-charcoal font-body text-xs tracking-[0.15em] uppercase hover:bg-gold-light transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed rounded group"
+              >
+                Continue
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="flex items-center gap-2 px-8 py-3 bg-gold text-charcoal font-body text-xs tracking-[0.15em] uppercase hover:bg-gold-light transition-all duration-300 rounded group"
+              >
+                <Send className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" /> Submit
+              </button>
+            )}
+          </div>
         </div>
+
+        {/* Step counter */}
+        <p className="text-center text-hero-muted/30 font-body text-xs mt-6">
+          Step {step + 1} of {steps.length}
+        </p>
       </div>
     </div>
   );
