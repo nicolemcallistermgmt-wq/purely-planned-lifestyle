@@ -3,7 +3,7 @@ import { ShieldCheck, Eye, UserCheck } from "lucide-react";
 const badges = [
   { icon: Eye, label: "Confidential & Discreet" },
   { icon: UserCheck, label: "Background Verified" },
-  { icon: ShieldCheck, label: "Fully Insured" },
+  { icon: ShieldCheck, label: "Insured" },
 ];
 
 const Footer = () => (
