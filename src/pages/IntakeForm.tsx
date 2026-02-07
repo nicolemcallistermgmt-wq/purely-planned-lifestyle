@@ -169,7 +169,7 @@ const IntakeForm = () => {
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
-          <span className="font-heading text-lg text-cream">Purely Planned</span>
+          <div className="w-16" />
           <div className="w-16" />
         </div>
       </div>
