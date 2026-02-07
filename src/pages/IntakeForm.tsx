@@ -61,7 +61,7 @@ const steps = [
 ];
 
 const inputClass =
-  "w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors";
+  "w-full px-4 py-3 bg-background border border-hero-muted/30 text-cream placeholder-hero-muted/60 font-body text-sm focus:border-gold focus:ring-1 focus:ring-gold/30 focus:outline-none transition-colors rounded-sm";
 
 const IntakeForm = () => {
   const [step, setStep] = useState(0);
