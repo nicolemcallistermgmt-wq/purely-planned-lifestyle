@@ -47,6 +47,12 @@ export async function onRequestOptions() {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
+  // Debug: check if access key is configured
+  if (!env.WEB3FORMS_ACCESS_KEY) {
+    console.error("WEB3FORMS_ACCESS_KEY is not set in environment variables");
+    return jsonResponse({ success: false, message: "Server configuration error." }, 500);
+  }
+
   try {
     const data = await request.json();
 
@@ -110,6 +116,7 @@ export async function onRequestPost(context) {
     const result = await response.json();
     return jsonResponse(result, response.ok ? 200 : 500);
   } catch (err) {
+    console.error("Function error:", err);
     return jsonResponse({ success: false, message: "Server error. Please try again." }, 500);
   }
 }
