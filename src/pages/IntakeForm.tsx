@@ -150,30 +150,34 @@ const IntakeForm = () => {
 
     setSubmitting(true);
     try {
-      const response = await fetch("/api/submit-form", {
+      const d = result.data;
+      const body = new FormData();
+      body.append("access_key", "db4d914c-862c-4068-b930-1b34baaf4951");
+      body.append("subject", `New Client Intake: ${d.firstName} ${d.lastName}`);
+      body.append("from_name", `${d.firstName} ${d.lastName}`);
+      body.append("replyto", d.email);
+      body.append("First Name", d.firstName);
+      body.append("Last Name", d.lastName);
+      body.append("Email", d.email);
+      body.append("Phone", d.phone || "Not provided");
+      body.append("Preferred Contact", d.preferredContact || "email");
+      body.append("Address", d.address || "Not provided");
+      body.append("City", d.city || "Not provided");
+      body.append("State", d.state || "Not provided");
+      body.append("ZIP", d.zip || "Not provided");
+      body.append("Services Requested", d.services.join(", "));
+      body.append("Timeline", d.timeline || "Not specified");
+      body.append("Budget Range", d.budget || "Not specified");
+      body.append("Referral Source", d.referralSource || "Not specified");
+      body.append("Additional Information", d.additionalInfo || "None provided");
+      body.append("h-captcha-response", captchaToken);
+
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type: "intake",
-          ...result.data,
-          "h-captcha-response": captchaToken,
-        }),
+        body,
       });
 
-      const text = await response.text();
-      console.log("Web3Forms response:", response.status, text);
-
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        toast({
-          title: "Submission failed",
-          description: `Service error: ${text.slice(0, 100)}`,
-          variant: "destructive",
-        });
-        return;
-      }
+      const data = await response.json();
 
       if (data.success) {
         setSubmitted(true);
