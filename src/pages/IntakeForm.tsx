@@ -114,7 +114,7 @@ const IntakeForm = () => {
       form.additionalInfo || "None provided",
     ].join("\n");
 
-    window.location.href = `mailto:nicole@purelyplannedconsulting.com?subject=${encodeURIComponent(
+    window.location.href = `mailto:info@purelyplannedconsulting.com?subject=${encodeURIComponent(
       `New Client Intake: ${form.firstName} ${form.lastName}`
     )}&body=${encodeURIComponent(body)}`;
 
@@ -139,8 +139,8 @@ const IntakeForm = () => {
           </p>
           <p className="text-hero-muted/60 font-body text-sm mb-8">
             If your email client didn't open, please email us directly at{" "}
-            <a href="mailto:nicole@purelyplannedconsulting.com" className="text-gold hover:underline">
-              nicole@purelyplannedconsulting.com
+            <a href="mailto:info@purelyplannedconsulting.com" className="text-gold hover:underline">
+              info@purelyplannedconsulting.com
             </a>
           </p>
           <Link

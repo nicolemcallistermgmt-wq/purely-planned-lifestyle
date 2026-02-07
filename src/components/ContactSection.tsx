@@ -9,7 +9,7 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = `mailto:nicole@purelyplannedconsulting.com?subject=Inquiry from ${formData.name}&body=${encodeURIComponent(
+    window.location.href = `mailto:info@purelyplannedconsulting.com?subject=Inquiry from ${formData.name}&body=${encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n${formData.message}`
     )}`;
   };
@@ -97,8 +97,8 @@ const ContactSection = () => {
             <div className="border border-charcoal-light p-6">
               <Mail className="w-5 h-5 text-gold mb-3" strokeWidth={1.5} />
               <h4 className="font-heading text-lg text-cream mb-2">Email</h4>
-              <a href="mailto:nicole@purelyplannedconsulting.com" className="text-sm text-hero-muted font-body hover:text-gold transition-colors">
-                nicole@purelyplannedconsulting.com
+              <a href="mailto:info@purelyplannedconsulting.com" className="text-sm text-hero-muted font-body hover:text-gold transition-colors">
+                info@purelyplannedconsulting.com
               </a>
             </div>
 
