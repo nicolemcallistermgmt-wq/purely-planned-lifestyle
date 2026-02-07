@@ -123,11 +123,9 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* Use dynamic viewport height for mobile browsers */
-    height: 100%;
+    min-height: 100%;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    overflow-x: hidden;
   }
 
   * {
