@@ -50,19 +50,31 @@ function validateZip(zip: string): boolean {
   return /^[\dA-Za-z\s\-]{0,15}$/.test(zip);
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json",
-  };
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
+function jsonResponse(body: object, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
+// Handle CORS preflight
+export const onRequestOptions: PagesFunction = async () => {
+  return new Response(null, { status: 204, headers: corsHeaders });
+};
+
+export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   try {
     const data: IntakePayload = await request.json();
 
     // Honeypot check — bots fill this hidden field
     if (data.website) {
-      // Pretend success to not tip off the bot
-      return new Response(JSON.stringify({ success: true }), { headers: corsHeaders });
+      return jsonResponse({ success: true });
     }
 
     // Required field validation
@@ -71,40 +83,25 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const email = (data.email || "").trim().slice(0, 255);
 
     if (!firstName || !lastName || !email) {
-      return new Response(
-        JSON.stringify({ success: false, message: "Name and email are required." }),
-        { status: 400, headers: corsHeaders }
-      );
+      return jsonResponse({ success: false, message: "Name and email are required." }, 400);
     }
 
     if (!validateEmail(email)) {
-      return new Response(
-        JSON.stringify({ success: false, message: "Invalid email address." }),
-        { status: 400, headers: corsHeaders }
-      );
+      return jsonResponse({ success: false, message: "Invalid email address." }, 400);
     }
 
     if (!validatePhone(data.phone || "")) {
-      return new Response(
-        JSON.stringify({ success: false, message: "Invalid phone number." }),
-        { status: 400, headers: corsHeaders }
-      );
+      return jsonResponse({ success: false, message: "Invalid phone number." }, 400);
     }
 
     if (!validateZip(data.zip || "")) {
-      return new Response(
-        JSON.stringify({ success: false, message: "Invalid ZIP code." }),
-        { status: 400, headers: corsHeaders }
-      );
+      return jsonResponse({ success: false, message: "Invalid ZIP code." }, 400);
     }
 
     // Validate services
     const services = (data.services || []).filter((s) => ALLOWED_SERVICES.includes(s));
     if (services.length === 0) {
-      return new Response(
-        JSON.stringify({ success: false, message: "At least one service is required." }),
-        { status: 400, headers: corsHeaders }
-      );
+      return jsonResponse({ success: false, message: "At least one service is required." }, 400);
     }
 
     // Build the submission
@@ -113,7 +110,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       subject: `New Client Intake: ${firstName} ${lastName}`,
       from_name: `${firstName} ${lastName}`,
       replyto: email,
-      // Structured body
       "First Name": firstName,
       "Last Name": lastName,
       Email: email,
@@ -137,15 +133,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     });
 
     const result = await response.json();
-
-    return new Response(JSON.stringify(result), {
-      status: response.ok ? 200 : 500,
-      headers: corsHeaders,
-    });
-  } catch {
-    return new Response(
-      JSON.stringify({ success: false, message: "Server error. Please try again." }),
-      { status: 500, headers: corsHeaders }
-    );
+    return jsonResponse(result, response.ok ? 200 : 500);
+  } catch (err) {
+    return jsonResponse({ success: false, message: "Server error. Please try again." }, 500);
   }
 };
