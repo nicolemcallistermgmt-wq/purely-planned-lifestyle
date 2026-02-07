@@ -2,7 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Shield, Layers, Sparkles } from "lucide-react";
 import GoldDivider from "./GoldDivider";
-import DMVMapVisual from "./DMVMapVisual";
+
 
 const values = [
   { icon: Shield, title: "Discretion Assured", desc: "Complete confidentiality in every engagement" },
@@ -69,8 +69,6 @@ const AboutSection = () => {
           ))}
         </div>
 
-        {/* DMV Service Area Map */}
-        <DMVMapVisual />
       </div>
     </section>
   );
