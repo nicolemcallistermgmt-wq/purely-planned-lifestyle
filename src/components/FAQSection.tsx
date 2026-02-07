@@ -18,28 +18,12 @@ const faqs = [
     a: "A professional organizer helps you create functional, sustainable systems for your home, office, or daily life. This includes decluttering, space planning, storage solutions, paper management, and building routines that reduce stress and save you time. We do the hands-on work alongside you — or independently if you prefer.",
   },
   {
-    q: "Do I need to be home during organizing sessions?",
-    a: "It's entirely up to you. Some clients prefer to be present and involved in every decision, while others give us guidelines and let us work independently. We're experienced in both approaches and will follow whatever makes you most comfortable.",
-  },
-  {
     q: "How long does a typical organizing project take?",
     a: "It depends on the scope. A single room like a closet or pantry can often be completed in one session (3–5 hours). A whole-home project may take multiple sessions over several weeks. After an initial consultation, we'll provide a clear time estimate tailored to your space and goals.",
   },
   {
-    q: "Will you throw away my things?",
-    a: "Never without your permission. We guide you through a decision-making process and respect that every item has a story. We help you sort items into categories — keep, donate, sell, recycle, or discard — and coordinate removal of anything you choose to part with.",
-  },
-  {
-    q: "What if I'm embarrassed by the state of my home?",
-    a: "Please don't be. We've seen it all and we never judge. Our clients range from busy professionals who've fallen behind to people navigating major life transitions. Our role is to help, not to evaluate. Confidentiality and compassion are at the core of every engagement.",
-  },
-  {
     q: "How is Purely Planned different from other organizers?",
     a: "We offer more than just organizing — we're a full-service lifestyle management firm. Beyond decluttering and space design, we provide concierge services, relocation support, seasonal home transitions, and event hospitality. Our clients also value our emphasis on discretion, privacy, and a personalized approach.",
-  },
-  {
-    q: "What does a concierge service include?",
-    a: "Our concierge services cover the day-to-day tasks that keep life running smoothly — errand running, vendor coordination, appointment scheduling, shopping, returns, and household oversight. Think of us as an extension of your household team.",
   },
   {
     q: "Can you help with a move or relocation?",

@@ -68,6 +68,11 @@ const faqSchema = {
     },
     {
       "@type": "Question",
+      name: "How much do your services cost?",
+      acceptedAnswer: { "@type": "Answer", text: "Our pricing varies based on the type and scope of service. We offer transparent tiered packages as well as custom quotes for larger projects. After an initial consultation, we'll provide a clear estimate with no hidden fees." },
+    },
+    {
+      "@type": "Question",
       name: "Is my personal information kept confidential?",
       acceptedAnswer: { "@type": "Answer", text: "Absolutely. We never sell or share your personal information. All team members are background-verified and we are fully insured." },
     },
