@@ -1,54 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Send, User, Home, Briefcase, Heart, Check, Mail, Phone, MessageSquare } from "lucide-react";
+import { ArrowLeft, ArrowRight, Send, User, Home, Briefcase, Heart, Check, Mail, Phone, MessageSquare, Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { intakeSchema, ALLOWED_SERVICES, type IntakeFormData } from "@/lib/intake-schema";
+import { toast } from "@/hooks/use-toast";
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  preferredContact: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  services: string[];
-  timeline: string;
-  budget: string;
-  referralSource: string;
-  additionalInfo: string;
-}
-
-const initialForm: FormData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  preferredContact: "email",
-  address: "",
-  city: "",
-  state: "",
-  zip: "",
-  services: [],
-  timeline: "",
-  budget: "",
-  referralSource: "",
-  additionalInfo: "",
-};
-
-const serviceOptions = [
-  "Lifestyle Consulting",
-  "Home Organizing",
-  "Concierge Services",
-  "Snow Bird Services",
-  "Relocation Assistance",
-  "Event Hospitality",
-  "Move Management",
-  "Downsizing",
-];
+const serviceOptions = [...ALLOWED_SERVICES];
 
 const steps = [
   { label: "Personal", icon: User, description: "Your contact details" },
@@ -61,19 +20,51 @@ const contactMethods = [
   { value: "email", icon: Mail, label: "Email" },
   { value: "phone", icon: Phone, label: "Phone" },
   { value: "text", icon: MessageSquare, label: "Text" },
-];
+] as const;
 
 const inputClass =
   "w-full px-5 py-3.5 bg-charcoal-light/50 border border-hero-muted/20 text-cream placeholder-hero-muted/40 font-body text-sm focus:border-gold/60 focus:ring-1 focus:ring-gold/20 focus:outline-none transition-all duration-300 rounded";
 
+const errorClass = "text-red-400 font-body text-xs mt-1.5";
+
+const initialForm = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  preferredContact: "email" as const,
+  address: "",
+  city: "",
+  state: "",
+  zip: "",
+  services: [] as string[],
+  timeline: "",
+  budget: "",
+  referralSource: "",
+  additionalInfo: "",
+};
+
 const IntakeForm = () => {
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState<FormData>(initialForm);
+  const [form, setForm] = useState(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [direction, setDirection] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  // Honeypot field - hidden from real users
+  const [honeypot, setHoneypot] = useState("");
 
-  const set = (field: keyof FormData, value: string | string[]) =>
+  const set = (field: keyof typeof initialForm, value: string | string[]) => {
     setForm((f) => ({ ...f, [field]: value }));
+    // Clear error on change
+    if (fieldErrors[field]) {
+      setFieldErrors((e) => {
+        const next = { ...e };
+        delete next[field];
+        return next;
+      });
+    }
+  };
 
   const toggleService = (s: string) =>
     setForm((f) => ({
@@ -83,14 +74,41 @@ const IntakeForm = () => {
         : [...f.services, s],
     }));
 
+  const validateStep = (): boolean => {
+    const result = intakeSchema.safeParse(form);
+    if (result.success) {
+      setFieldErrors({});
+      return true;
+    }
+
+    const errors: Record<string, string> = {};
+    const stepFields: Record<number, string[]> = {
+      0: ["firstName", "lastName", "email", "phone", "preferredContact"],
+      1: ["address", "city", "state", "zip"],
+      2: ["services"],
+      3: ["timeline", "budget", "referralSource", "additionalInfo"],
+    };
+
+    const currentFields = stepFields[step];
+    result.error.issues.forEach((issue) => {
+      const field = issue.path[0] as string;
+      if (currentFields.includes(field) && !errors[field]) {
+        errors[field] = issue.message;
+      }
+    });
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const canAdvance = () => {
     if (step === 0) return form.firstName && form.lastName && form.email;
-    if (step === 1) return true;
     if (step === 2) return form.services.length > 0;
     return true;
   };
 
   const goNext = () => {
+    if (!validateStep()) return;
     setDirection(1);
     setStep((s) => s + 1);
   };
@@ -107,39 +125,52 @@ const IntakeForm = () => {
     }
   };
 
-  const handleSubmit = () => {
-    const body = [
-      `=== NEW CLIENT INTAKE FORM ===`,
-      ``,
-      `PERSONAL INFORMATION`,
-      `Name: ${form.firstName} ${form.lastName}`,
-      `Email: ${form.email}`,
-      `Phone: ${form.phone || "Not provided"}`,
-      `Preferred Contact: ${form.preferredContact}`,
-      ``,
-      `LOCATION`,
-      `Address: ${form.address || "Not provided"}`,
-      `City: ${form.city || "Not provided"}`,
-      `State: ${form.state || "Not provided"}`,
-      `ZIP: ${form.zip || "Not provided"}`,
-      ``,
-      `SERVICES REQUESTED`,
-      form.services.map((s) => `• ${s}`).join("\n"),
-      ``,
-      `PROJECT DETAILS`,
-      `Timeline: ${form.timeline || "Not specified"}`,
-      `Budget Range: ${form.budget || "Not specified"}`,
-      `Referral Source: ${form.referralSource || "Not specified"}`,
-      ``,
-      `ADDITIONAL INFORMATION`,
-      form.additionalInfo || "None provided",
-    ].join("\n");
+  const handleSubmit = async () => {
+    // Full validation
+    const result = intakeSchema.safeParse(form);
+    if (!result.success) {
+      const errors: Record<string, string> = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as string;
+        if (!errors[field]) errors[field] = issue.message;
+      });
+      setFieldErrors(errors);
+      toast({ title: "Please fix the errors before submitting.", variant: "destructive" });
+      return;
+    }
 
-    window.location.href = `mailto:info@purelyplannedconsulting.com?subject=${encodeURIComponent(
-      `New Client Intake: ${form.firstName} ${form.lastName}`
-    )}&body=${encodeURIComponent(body)}`;
+    setSubmitting(true);
+    try {
+      const response = await fetch("/api/submit-intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...result.data,
+          // Include honeypot — server will silently discard if filled
+          website: honeypot,
+        }),
+      });
 
-    setSubmitted(true);
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        toast({
+          title: "Submission failed",
+          description: data.message || "Please try again later.",
+          variant: "destructive",
+        });
+      }
+    } catch {
+      toast({
+        title: "Network error",
+        description: "Please check your connection and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const slideVariants = {
@@ -171,11 +202,10 @@ const IntakeForm = () => {
           <h1 className="font-heading text-4xl text-cream mb-4">Thank You</h1>
           <div className="h-px w-12 bg-gold mx-auto mb-6" />
           <p className="text-hero-muted font-body leading-relaxed mb-2">
-            Your email client should have opened with the intake form details.
-            Please press send to complete your submission.
+            Your intake form has been submitted successfully. We'll review your information and be in touch shortly.
           </p>
           <p className="text-hero-muted/50 font-body text-sm mb-10">
-            If your email client didn't open, please email us directly at{" "}
+            If you need immediate assistance, email us at{" "}
             <a href="mailto:info@purelyplannedconsulting.com" className="text-gold hover:text-gold-light transition-colors">
               info@purelyplannedconsulting.com
             </a>
@@ -231,13 +261,11 @@ const IntakeForm = () => {
         className="max-w-2xl mx-auto px-6 mb-10"
       >
         <div className="flex items-center justify-between relative">
-          {/* Progress line */}
           <div className="absolute top-5 left-0 right-0 h-px bg-charcoal-light mx-10" />
           <div
             className="absolute top-5 left-0 h-px bg-gold/40 mx-10 transition-all duration-500"
             style={{ width: `${(step / (steps.length - 1)) * 100}%` }}
           />
-
           {steps.map((s, i) => {
             const Icon = s.icon;
             const active = i === step;
@@ -247,7 +275,7 @@ const IntakeForm = () => {
                 key={s.label}
                 onClick={() => goToStep(i)}
                 className={`relative z-10 flex flex-col items-center gap-2 transition-all duration-300 ${
-                  done ? "cursor-pointer" : i > step ? "cursor-default" : "cursor-default"
+                  done ? "cursor-pointer" : "cursor-default"
                 }`}
               >
                 <div
@@ -286,6 +314,20 @@ const IntakeForm = () => {
       {/* Form card */}
       <div className="max-w-2xl mx-auto px-6 pb-20">
         <div className="bg-charcoal-light/20 border border-hero-muted/10 rounded-lg p-6 sm:p-10">
+          {/* Honeypot - invisible to humans */}
+          <div className="absolute opacity-0 h-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
+            <label htmlFor="website">Website</label>
+            <input
+              id="website"
+              name="website"
+              type="text"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              autoComplete="off"
+              tabIndex={-1}
+            />
+          </div>
+
           {/* Step title */}
           <div className="mb-8">
             <h2 className="font-heading text-xl text-cream mb-1">{steps[step].label} Information</h2>
@@ -310,22 +352,24 @@ const IntakeForm = () => {
                       <input
                         type="text"
                         placeholder="Jane"
-                        required
                         value={form.firstName}
                         onChange={(e) => set("firstName", e.target.value)}
-                        className={inputClass}
+                        className={`${inputClass} ${fieldErrors.firstName ? "border-red-400/60" : ""}`}
+                        maxLength={100}
                       />
+                      {fieldErrors.firstName && <p className={errorClass}>{fieldErrors.firstName}</p>}
                     </div>
                     <div>
                       <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Last Name <span className="text-gold">*</span></label>
                       <input
                         type="text"
                         placeholder="Smith"
-                        required
                         value={form.lastName}
                         onChange={(e) => set("lastName", e.target.value)}
-                        className={inputClass}
+                        className={`${inputClass} ${fieldErrors.lastName ? "border-red-400/60" : ""}`}
+                        maxLength={100}
                       />
+                      {fieldErrors.lastName && <p className={errorClass}>{fieldErrors.lastName}</p>}
                     </div>
                   </div>
                   <div>
@@ -333,11 +377,12 @@ const IntakeForm = () => {
                     <input
                       type="email"
                       placeholder="jane@example.com"
-                      required
                       value={form.email}
                       onChange={(e) => set("email", e.target.value)}
-                      className={inputClass}
+                      className={`${inputClass} ${fieldErrors.email ? "border-red-400/60" : ""}`}
+                      maxLength={255}
                     />
+                    {fieldErrors.email && <p className={errorClass}>{fieldErrors.email}</p>}
                   </div>
                   <div>
                     <label className="block text-[11px] text-hero-muted/60 font-body mb-2 uppercase tracking-wider">Phone</label>
@@ -346,8 +391,10 @@ const IntakeForm = () => {
                       placeholder="(555) 000-0000"
                       value={form.phone}
                       onChange={(e) => set("phone", e.target.value)}
-                      className={inputClass}
+                      className={`${inputClass} ${fieldErrors.phone ? "border-red-400/60" : ""}`}
+                      maxLength={30}
                     />
+                    {fieldErrors.phone && <p className={errorClass}>{fieldErrors.phone}</p>}
                   </div>
                   <div>
                     <label className="block text-[11px] text-hero-muted/60 font-body mb-3 uppercase tracking-wider">Preferred Contact</label>
@@ -386,6 +433,7 @@ const IntakeForm = () => {
                       value={form.address}
                       onChange={(e) => set("address", e.target.value)}
                       className={inputClass}
+                      maxLength={200}
                     />
                   </div>
                   <div className="grid sm:grid-cols-3 gap-4">
@@ -397,6 +445,7 @@ const IntakeForm = () => {
                         value={form.city}
                         onChange={(e) => set("city", e.target.value)}
                         className={inputClass}
+                        maxLength={100}
                       />
                     </div>
                     <div>
@@ -407,6 +456,7 @@ const IntakeForm = () => {
                         value={form.state}
                         onChange={(e) => set("state", e.target.value)}
                         className={inputClass}
+                        maxLength={50}
                       />
                     </div>
                     <div>
@@ -416,8 +466,10 @@ const IntakeForm = () => {
                         placeholder="34102"
                         value={form.zip}
                         onChange={(e) => set("zip", e.target.value)}
-                        className={inputClass}
+                        className={`${inputClass} ${fieldErrors.zip ? "border-red-400/60" : ""}`}
+                        maxLength={15}
                       />
+                      {fieldErrors.zip && <p className={errorClass}>{fieldErrors.zip}</p>}
                     </div>
                   </div>
                   <p className="text-hero-muted/30 font-body text-xs pt-2">
@@ -461,6 +513,7 @@ const IntakeForm = () => {
                       );
                     })}
                   </div>
+                  {fieldErrors.services && <p className={errorClass + " mt-3"}>{fieldErrors.services}</p>}
                   {form.services.length > 0 && (
                     <motion.p
                       initial={{ opacity: 0 }}
@@ -526,6 +579,7 @@ const IntakeForm = () => {
                       value={form.referralSource}
                       onChange={(e) => set("referralSource", e.target.value)}
                       className={inputClass}
+                      maxLength={200}
                     />
                   </div>
                   <div>
@@ -536,6 +590,7 @@ const IntakeForm = () => {
                       value={form.additionalInfo}
                       onChange={(e) => set("additionalInfo", e.target.value)}
                       className={inputClass + " resize-none"}
+                      maxLength={2000}
                     />
                   </div>
                 </div>
@@ -570,9 +625,18 @@ const IntakeForm = () => {
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="flex items-center gap-2 px-8 py-3 bg-gold text-charcoal font-body text-xs tracking-[0.15em] uppercase hover:bg-gold-light transition-all duration-300 rounded group"
+                disabled={submitting}
+                className="flex items-center gap-2 px-8 py-3 bg-gold text-charcoal font-body text-xs tracking-[0.15em] uppercase hover:bg-gold-light transition-all duration-300 rounded group disabled:opacity-60"
               >
-                <Send className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" /> Submit
+                {submitting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" /> Submitting…
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" /> Submit
+                  </>
+                )}
               </button>
             )}
           </div>
