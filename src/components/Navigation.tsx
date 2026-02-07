@@ -32,11 +32,7 @@ const Navigation = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16 md:h-20">
-        <a href="#" className={`font-heading text-xl md:text-2xl tracking-wide transition-colors ${
-          scrolled ? "text-foreground" : "text-hero-foreground"
-        }`}>
-          Purely Planned
-        </a>
+        {/* Logo/brand removed per client request */}
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
