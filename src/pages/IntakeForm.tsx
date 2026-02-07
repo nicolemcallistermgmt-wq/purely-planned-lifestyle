@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Send, User, Home, Briefcase, Heart } from "lucide-react";
+import { ArrowLeft, Send, User, Home, Briefcase, Heart, ChevronDown } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -338,34 +339,46 @@ const IntakeForm = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-xs text-hero-muted font-body mb-2">Ideal Timeline</label>
-                <select
-                  value={form.timeline}
-                  onChange={(e) => set("timeline", e.target.value)}
-                  className={inputClass + " appearance-none"}
-                >
-                  <option value="">Select timeline...</option>
-                  <option value="ASAP">As soon as possible</option>
-                  <option value="1-2 weeks">1–2 weeks</option>
-                  <option value="1 month">Within a month</option>
-                  <option value="2-3 months">2–3 months</option>
-                  <option value="Flexible">Flexible / No rush</option>
-                </select>
+                <Select value={form.timeline} onValueChange={(v) => set("timeline", v)}>
+                  <SelectTrigger className="w-full px-4 py-3 h-auto bg-charcoal border-hero-muted/30 text-cream font-body text-sm rounded-sm focus:ring-gold/30 focus:ring-1 [&>svg]:text-hero-muted">
+                    <SelectValue placeholder="Select timeline..." />
+                  </SelectTrigger>
+                  <SelectContent className="bg-charcoal border-hero-muted/30 z-50">
+                    {[
+                      { value: "ASAP", label: "As soon as possible" },
+                      { value: "1-2 weeks", label: "1–2 weeks" },
+                      { value: "1 month", label: "Within a month" },
+                      { value: "2-3 months", label: "2–3 months" },
+                      { value: "Flexible", label: "Flexible / No rush" },
+                    ].map((o) => (
+                      <SelectItem key={o.value} value={o.value} className="text-cream font-body text-sm hover:bg-charcoal-light focus:bg-charcoal-light focus:text-gold cursor-pointer">
+                        {o.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <label className="block text-xs text-hero-muted font-body mb-2">Budget Range</label>
-                <select
-                  value={form.budget}
-                  onChange={(e) => set("budget", e.target.value)}
-                  className={inputClass + " appearance-none"}
-                >
-                  <option value="">Select budget range...</option>
-                  <option value="Under $500">Under $500</option>
-                  <option value="$500 - $1,000">$500 – $1,000</option>
-                  <option value="$1,000 - $2,500">$1,000 – $2,500</option>
-                  <option value="$2,500 - $5,000">$2,500 – $5,000</option>
-                  <option value="$5,000+">$5,000+</option>
-                  <option value="Prefer to discuss">Prefer to discuss</option>
-                </select>
+                <Select value={form.budget} onValueChange={(v) => set("budget", v)}>
+                  <SelectTrigger className="w-full px-4 py-3 h-auto bg-charcoal border-hero-muted/30 text-cream font-body text-sm rounded-sm focus:ring-gold/30 focus:ring-1 [&>svg]:text-hero-muted">
+                    <SelectValue placeholder="Select budget range..." />
+                  </SelectTrigger>
+                  <SelectContent className="bg-charcoal border-hero-muted/30 z-50">
+                    {[
+                      { value: "Under $500", label: "Under $500" },
+                      { value: "$500 - $1,000", label: "$500 – $1,000" },
+                      { value: "$1,000 - $2,500", label: "$1,000 – $2,500" },
+                      { value: "$2,500 - $5,000", label: "$2,500 – $5,000" },
+                      { value: "$5,000+", label: "$5,000+" },
+                      { value: "Prefer to discuss", label: "Prefer to discuss" },
+                    ].map((o) => (
+                      <SelectItem key={o.value} value={o.value} className="text-cream font-body text-sm hover:bg-charcoal-light focus:bg-charcoal-light focus:text-gold cursor-pointer">
+                        {o.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <label className="block text-xs text-hero-muted font-body mb-2">How did you hear about us?</label>
