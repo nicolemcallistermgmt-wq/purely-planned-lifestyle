@@ -31,7 +31,7 @@ const Navigation = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="w-full px-6 md:px-12 flex items-center justify-center h-16 md:h-20">
+      <div className="w-full px-6 md:px-12 flex items-center justify-start md:justify-center h-16 md:h-20">
         {/* Desktop */}
         <div className="hidden md:flex items-center justify-between w-full">
           {navLinks.map((link) => (
