@@ -9,9 +9,9 @@ const TestimonialsSection = () => {
     <section className="section-padding bg-secondary" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center"
         >
           <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">Testimonials</p>
