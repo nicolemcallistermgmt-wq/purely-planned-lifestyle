@@ -44,27 +44,37 @@ const faqSchema = {
     {
       "@type": "Question",
       name: "What areas does Purely Planned Consulting serve?",
-      acceptedAnswer: { "@type": "Answer", text: "We serve clients throughout the Washington D.C., Maryland, and Virginia (DMV) metropolitan area." },
+      acceptedAnswer: { "@type": "Answer", text: "We serve clients throughout the Washington D.C., Maryland, and Virginia (DMV) metropolitan area. Both in-person and virtual consultations are available." },
     },
     {
       "@type": "Question",
-      name: "What services does a lifestyle management consultant provide?",
-      acceptedAnswer: { "@type": "Answer", text: "We offer lifestyle consulting, home and office organizing, personal concierge services, snow bird seasonal transitions, relocation support, and event hospitality." },
+      name: "What does a professional organizer actually do?",
+      acceptedAnswer: { "@type": "Answer", text: "A professional organizer helps you create functional, sustainable systems for your home, office, or daily life — including decluttering, space planning, storage solutions, and building routines that reduce stress." },
+    },
+    {
+      "@type": "Question",
+      name: "How long does a typical organizing project take?",
+      acceptedAnswer: { "@type": "Answer", text: "A single room can often be completed in one session (3–5 hours). Whole-home projects may take multiple sessions over several weeks. We provide a clear time estimate after an initial consultation." },
+    },
+    {
+      "@type": "Question",
+      name: "How is Purely Planned different from other organizers?",
+      acceptedAnswer: { "@type": "Answer", text: "We offer full-service lifestyle management beyond organizing — including concierge services, relocation support, seasonal home transitions, and event hospitality, with an emphasis on discretion and privacy." },
+    },
+    {
+      "@type": "Question",
+      name: "Can you help with a move or relocation?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. We offer comprehensive move management including downsizing support, packing and labeling, coordination with movers, unpacking, and setting up organized systems in your new home." },
     },
     {
       "@type": "Question",
       name: "Is my personal information kept confidential?",
-      acceptedAnswer: { "@type": "Answer", text: "Absolutely. Discretion is central to our practice. We never sell or share your personal information, and we work with clients who require the highest levels of professional privacy." },
+      acceptedAnswer: { "@type": "Answer", text: "Absolutely. We never sell or share your personal information. All team members are background-verified and we are fully insured." },
     },
     {
       "@type": "Question",
       name: "How do I get started with Purely Planned Consulting?",
-      acceptedAnswer: { "@type": "Answer", text: "You can fill out our Client Intake Form or send a quick inquiry through the contact form on our website. We'll respond within 24-48 hours to discuss your needs." },
-    },
-    {
-      "@type": "Question",
-      name: "Do you offer virtual consultations?",
-      acceptedAnswer: { "@type": "Answer", text: "Yes, we offer both in-person and virtual consultations depending on your needs and location within the DMV area." },
+      acceptedAnswer: { "@type": "Answer", text: "Fill out our Client Intake Form or send a quick inquiry through our website. We'll respond within 24–48 hours to discuss your needs and schedule a consultation." },
     },
   ],
 };
