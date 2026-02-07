@@ -162,7 +162,7 @@ const IntakeForm = () => {
         <meta name="description" content="Submit your intake form to get started with Purely Planned Consulting's lifestyle management and home organization services." />
       </Helmet>
       <div className="bg-charcoal border-b border-charcoal-light">
-        <div className="max-w-3xl mx-auto px-6 py-6">
+        <div className="px-4 py-6">
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-hero-muted hover:text-cream font-body text-sm transition-colors"
