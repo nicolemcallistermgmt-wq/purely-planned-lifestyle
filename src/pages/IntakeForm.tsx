@@ -176,7 +176,20 @@ const IntakeForm = () => {
         body: formData,
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      console.log("Web3Forms response:", response.status, text);
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        toast({
+          title: "Submission failed",
+          description: `Service error: ${text.slice(0, 100)}`,
+          variant: "destructive",
+        });
+        return;
+      }
 
       if (data.success) {
         setSubmitted(true);
