@@ -38,7 +38,7 @@ const PricingSection = () => {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="pricing" className="section-padding bg-background" ref={ref}>
+    <section id="commitment" className="section-padding bg-background" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
@@ -47,7 +47,7 @@ const PricingSection = () => {
           className="text-center mb-16"
         >
           <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">Investment</p>
-          <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-6">Transparent Pricing</h2>
+          <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-6">Your Commitment</h2>
           <GoldDivider className="mb-6" />
           <p className="text-base md:text-lg text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Professional services with clear, straightforward rates
