@@ -127,6 +127,7 @@
     height: 100%;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    overflow-x: hidden;
   }
 
   * {
@@ -144,6 +145,8 @@
     padding-right: env(safe-area-inset-right);
     /* Prevent overscroll bounce on iOS */
     overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+    overflow-x: hidden;
     /* Smooth scrolling momentum on iOS */
     -webkit-overflow-scrolling: touch;
   }
