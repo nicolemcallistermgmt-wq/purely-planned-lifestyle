@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
