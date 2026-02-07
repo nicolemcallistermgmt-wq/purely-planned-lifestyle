@@ -36,7 +36,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="mb-8"
+          className="mb-10"
         >
           <img
             src={logo}
@@ -49,27 +49,17 @@ const HeroSection = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex items-center justify-center gap-4 mb-8"
         >
-          <a
-            href="#contact"
-            className="px-8 py-3.5 bg-accent text-primary font-body text-sm tracking-[0.15em] uppercase hover:bg-gold-light active:scale-[0.97] transition-all"
-          >
-            Begin a Conversation
-          </a>
-          <a
-            href="#services"
-            className="px-8 py-3.5 bg-accent/15 border border-accent text-accent font-body text-sm tracking-[0.15em] uppercase hover:bg-accent hover:text-primary active:scale-[0.97] transition-all"
-          >
-            Explore Services
-          </a>
+          <div className="h-px w-12 bg-gold/50" />
+          <p className="text-xs md:text-sm tracking-[0.3em] uppercase text-hero-muted font-body">
+            Lifestyle Management & Home Organization
+          </p>
+          <div className="h-px w-12 bg-gold/50" />
         </motion.div>
-
-
-
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -84,10 +74,30 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-xs tracking-[0.25em] uppercase text-gold font-body"
+          className="text-xs tracking-[0.25em] uppercase text-gold font-body mb-12"
         >
           Proudly Serving Washington D.C., Maryland & Virginia
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center"
+        >
+          <a
+            href="#contact"
+            className="px-8 py-3.5 bg-accent text-primary font-body text-sm tracking-[0.15em] uppercase hover:bg-gold-light active:scale-[0.97] transition-all"
+          >
+            Begin a Conversation
+          </a>
+          <a
+            href="#services"
+            className="px-8 py-3.5 bg-accent/15 border border-accent text-accent font-body text-sm tracking-[0.15em] uppercase hover:bg-accent hover:text-primary active:scale-[0.97] transition-all"
+          >
+            Explore Services
+          </a>
+        </motion.div>
       </div>
     </section>
   );

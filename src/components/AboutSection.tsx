@@ -24,8 +24,9 @@ const AboutSection = () => {
           className="text-center mb-16"
           style={{ willChange: "opacity, transform" }}
         >
+          <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">About Us</p>
           <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-8">
-            About Us
+            About Purely Planned
           </h2>
           <GoldDivider className="mb-8" />
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-3xl mx-auto leading-relaxed italic">
