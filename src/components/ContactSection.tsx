@@ -22,20 +22,17 @@ const ContactSection = () => {
 
     setSubmitting(true);
     try {
-      const body = new FormData();
-      body.append("access_key", "db4d914c-862c-4068-b930-1b34baaf4951");
-      body.append("subject", `Quick Inquiry from ${formData.name}`);
-      body.append("from_name", formData.name);
-      body.append("replyto", formData.email);
-      body.append("Name", formData.name);
-      body.append("Email", formData.email);
-      body.append("Phone", formData.phone || "Not provided");
-      body.append("Message", formData.message);
-      body.append("h-captcha-response", captchaToken);
-
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/submit-form", {
         method: "POST",
-        body,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "contact",
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          "h-captcha-response": captchaToken,
+        }),
       });
 
       const text = await response.text();
