@@ -113,7 +113,14 @@ export async function onRequestPost(context) {
       body: JSON.stringify(submission),
     });
 
-    const result = await response.json();
+    const responseText = await response.text();
+    let result;
+    try {
+      result = JSON.parse(responseText);
+    } catch {
+      console.error("Web3Forms returned non-JSON:", responseText);
+      return jsonResponse({ success: false, message: "Form service error. Please try again later." }, 502);
+    }
     return jsonResponse(result, response.ok ? 200 : 500);
   } catch (err) {
     console.error("Function error:", err);
