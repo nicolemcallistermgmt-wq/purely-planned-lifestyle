@@ -62,7 +62,7 @@ const Navigation = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="w-full px-6 md:px-12 flex items-center justify-start md:justify-center h-16 md:h-20">
+      <div className="w-full px-5 md:px-12 flex items-center justify-start md:justify-center h-16 md:h-20">
         {/* Desktop */}
         <div className="hidden md:flex items-center justify-between w-full">
           {navLinks.map((link) => (
@@ -81,7 +81,8 @@ const Navigation = () => {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className={`md:hidden transition-colors ${scrolled ? "text-foreground" : "text-hero-foreground"}`}
+          className={`md:hidden p-2 transition-colors ${scrolled ? "text-foreground" : "text-hero-foreground"}`}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -94,9 +95,9 @@ const Navigation = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background border-b border-border overflow-hidden"
+            className="md:hidden bg-background border-b border-border overflow-hidden overscroll-contain"
           >
-            <div className="px-6 py-6 flex flex-col gap-4">
+            <div className="px-5 py-6 flex flex-col gap-5">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
