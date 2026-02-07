@@ -6,6 +6,9 @@ import PricingSection from "@/components/PricingSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import VideoDivider from "@/components/VideoDivider";
+import luxuryFlowers from "@/assets/luxury-flowers.mp4";
+import luxuryCloset from "@/assets/luxury-closet.mp4";
 
 const Index = () => {
   return (
@@ -13,7 +16,15 @@ const Index = () => {
       <Navigation />
       <HeroSection />
       <AboutSection />
+      <VideoDivider
+        videoSrc={luxuryFlowers}
+        quote="For those who expect more from life, we provide the calm, capable support that makes it possible."
+      />
       <ServicesSection />
+      <VideoDivider
+        videoSrc={luxuryCloset}
+        quote="Your priorities become our focus."
+      />
       <PricingSection />
       <TestimonialsSection />
       <ContactSection />
