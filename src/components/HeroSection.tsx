@@ -81,7 +81,7 @@ const HeroSection = () => {
           </a>
           <a
             href="#services"
-            className="px-8 py-3.5 border border-hero-muted/30 text-hero-foreground font-body text-sm tracking-[0.15em] uppercase hover:border-accent hover:text-accent transition-colors"
+            className="px-8 py-3.5 bg-accent/15 border border-accent text-accent font-body text-sm tracking-[0.15em] uppercase hover:bg-accent hover:text-primary transition-colors"
           >
             Explore Services
           </a>
