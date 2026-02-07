@@ -2,15 +2,24 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, FileText, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const ContactSection = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef<HCaptcha>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      toast({ title: "Please complete the captcha verification.", variant: "destructive" });
+      return;
+    }
+
     setSubmitting(true);
     try {
       const body = new FormData();
@@ -22,6 +31,7 @@ const ContactSection = () => {
       body.append("Email", formData.email);
       body.append("Phone", formData.phone || "Not provided");
       body.append("Message", formData.message);
+      body.append("h-captcha-response", captchaToken);
 
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -47,6 +57,8 @@ const ContactSection = () => {
       toast({ title: "Network error", description: "Please check your connection and try again.", variant: "destructive" });
     } finally {
       setSubmitting(false);
+      setCaptchaToken("");
+      captchaRef.current?.resetCaptcha();
     }
   };
 
@@ -89,6 +101,7 @@ const ContactSection = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors"
+                  maxLength={100}
                 />
                 <input
                   type="email"
@@ -97,6 +110,7 @@ const ContactSection = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors"
+                  maxLength={255}
                 />
               </div>
               <input
@@ -105,6 +119,7 @@ const ContactSection = () => {
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors"
+                maxLength={30}
               />
               <textarea
                 placeholder="Message *"
@@ -113,7 +128,18 @@ const ContactSection = () => {
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full px-4 py-3 bg-charcoal-light border border-charcoal-light text-cream placeholder-hero-muted/50 font-body text-sm focus:border-gold focus:outline-none transition-colors resize-none"
+                maxLength={2000}
               />
+              <div className="pt-1">
+                <HCaptcha
+                  sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
+                  reCaptchaCompat={false}
+                  theme="dark"
+                  onVerify={(token) => setCaptchaToken(token)}
+                  onExpire={() => setCaptchaToken("")}
+                  ref={captchaRef}
+                />
+              </div>
               <button
                 type="submit"
                 disabled={submitting}
