@@ -14,7 +14,7 @@ const localBusinessSchema = {
   description:
     "Thoughtful, discreet lifestyle management and home organization for discerning clients in Washington D.C., Maryland & Virginia.",
   url: "https://purelyplannedconsulting.com",
-  email: "nicole@purelyplannedconsulting.com",
+  email: "info@purelyplannedconsulting.com",
   areaServed: [
     { "@type": "State", name: "Maryland" },
     { "@type": "State", name: "Virginia" },
