@@ -1,13 +1,9 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
-  Compass,
-  Home,
-  HandHelping,
-  Snowflake,
-  Truck,
-  PartyPopper,
+  Compass, Home, HandHelping, Snowflake, Truck, PartyPopper,
 } from "lucide-react";
+import GoldDivider from "./GoldDivider";
 
 const services = [
   {
@@ -63,7 +59,7 @@ const ServicesSection = () => {
         >
           <p className="text-xs tracking-[0.3em] uppercase text-gold font-body mb-4">What We Do</p>
           <h2 className="text-3xl md:text-5xl font-heading text-cream mb-6">Our Services</h2>
-          <div className="h-px w-16 bg-gold mx-auto mb-6" />
+          <GoldDivider className="mb-6" />
           <p className="text-base md:text-lg text-hero-muted font-body font-light max-w-2xl mx-auto">
             Comprehensive services tailored to your life, your space, and your needs
           </p>

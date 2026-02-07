@@ -1,6 +1,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Shield, Layers, Sparkles } from "lucide-react";
+import GoldDivider from "./GoldDivider";
+import DMVMapVisual from "./DMVMapVisual";
 
 const values = [
   { icon: Shield, title: "Discretion Assured", desc: "Complete confidentiality in every engagement" },
@@ -25,7 +27,7 @@ const AboutSection = () => {
           <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-8">
             About Purely Planned
           </h2>
-          <div className="h-px w-16 bg-accent mx-auto mb-8" />
+          <GoldDivider className="mb-8" />
           <p className="text-lg md:text-xl text-muted-foreground font-body font-light max-w-3xl mx-auto leading-relaxed italic">
             For those who expect more from life, we provide the calm, capable support that makes it possible.
           </p>
@@ -66,6 +68,9 @@ const AboutSection = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* DMV Service Area Map */}
+        <DMVMapVisual />
       </div>
     </section>
   );

@@ -1,15 +1,24 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.75, 0.9]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0">
-        <img src={heroBg} alt="Elegant home interior" className="w-full h-full object-cover" loading="eager" fetchPriority="high" />
-        <div className="absolute inset-0 bg-charcoal/75" />
-      </div>
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
+      {/* Parallax background */}
+      <motion.div className="absolute inset-0" style={{ y: bgY }}>
+        <img src={heroBg} alt="Elegant home interior" className="w-full h-full object-cover scale-110" loading="eager" fetchPriority="high" />
+      </motion.div>
+      <motion.div className="absolute inset-0 bg-charcoal" style={{ opacity: overlayOpacity }} />
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.div
