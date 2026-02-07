@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ShieldCheck, Eye, UserCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const badges = [
   { icon: Eye, label: "Confidential & Discreet" },
@@ -34,14 +35,22 @@ const Footer = () => {
           ))}
         </div>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-xs text-hero-muted/50 font-body"
+          className="flex flex-col items-center gap-3"
         >
-          © {new Date().getFullYear()} Purely Planned Consulting
-        </motion.p>
+          <Link
+            to="/privacy"
+            className="text-xs text-hero-muted/50 font-body hover:text-gold transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          <p className="text-xs text-hero-muted/50 font-body">
+            © {new Date().getFullYear()} Purely Planned Consulting
+          </p>
+        </motion.div>
       </div>
     </footer>
   );
