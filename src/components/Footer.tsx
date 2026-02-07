@@ -7,7 +7,7 @@ const Footer = () => (
         <span className="text-gold/30">|</span>
         <span>Background Verified</span>
         <span className="text-gold/30">|</span>
-        <span>Insured & Bonded</span>
+        <span>Insured</span>
       </div>
       <p className="text-xs text-hero-muted/50 font-body">
         © {new Date().getFullYear()} Purely Planned Consulting
