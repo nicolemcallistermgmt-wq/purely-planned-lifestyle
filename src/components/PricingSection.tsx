@@ -9,7 +9,7 @@ const plans = [
     unit: "per hour",
     features: ["All services included", "3-hour minimum per session", "Flexible scheduling", "Professional expertise"],
     cta: "Get Started",
-    href: "/intake.html",
+    href: "/intake",
     featured: false,
   },
   {
