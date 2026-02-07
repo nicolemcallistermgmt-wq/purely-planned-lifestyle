@@ -8,7 +8,7 @@ const plans = [
     title: "Hourly Rate",
     price: "$75",
     unit: "per hour",
-    features: ["All services included", "3-hour minimum per session", "Flexible scheduling", "Professional expertise"],
+    features: ["All services included", "Flexible scheduling", "Professional expertise"],
     cta: "Get Started",
     href: "/intake",
     featured: false,
