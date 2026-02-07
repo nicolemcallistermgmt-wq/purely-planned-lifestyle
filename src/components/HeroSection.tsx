@@ -68,23 +68,13 @@ const HeroSection = () => {
           </a>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex items-center justify-center gap-4 mb-8"
-        >
-          <div className="h-px w-12 bg-gold/50" />
-          <p className="text-xs md:text-sm tracking-[0.3em] uppercase text-hero-muted font-body">
-            Lifestyle Management & Home Organization
-          </p>
-          <div className="h-px w-12 bg-gold/50" />
-        </motion.div>
+
+
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
           className="text-lg md:text-xl text-hero-muted font-body font-light max-w-2xl mx-auto mb-4 leading-relaxed"
         >
           Thoughtful, discreet service for discerning clients who value their time
@@ -93,7 +83,7 @@ const HeroSection = () => {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
           className="text-xs tracking-[0.25em] uppercase text-gold font-body"
         >
           Proudly Serving Washington D.C., Maryland & Virginia
