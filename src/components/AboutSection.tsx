@@ -18,8 +18,8 @@ const AboutSection = () => {
     <section id="about" className="section-padding bg-background" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center mb-16"
         >
@@ -55,8 +55,8 @@ const AboutSection = () => {
           {values.map((v, i) => (
             <motion.div
               key={v.title}
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 + i * 0.15, ease: "easeOut" }}
               className="text-center group"
             >

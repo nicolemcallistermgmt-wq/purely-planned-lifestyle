@@ -52,8 +52,8 @@ const ServicesSection = () => {
     <section id="services" className="section-padding bg-charcoal" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: "easeOut" }}
           className="text-center mb-16"
         >
@@ -69,8 +69,8 @@ const ServicesSection = () => {
           {services.map((s, i) => (
             <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 50, scale: 0.96 }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.15 + i * 0.1, ease: "easeOut" }}
               whileHover={{ y: -4, transition: { duration: 0.25 } }}
               className="border border-charcoal-light p-8 hover:border-gold/40 hover:bg-charcoal-light/30 transition-all duration-500 group"
