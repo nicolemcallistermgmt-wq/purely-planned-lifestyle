@@ -41,12 +41,21 @@ const Footer = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-col items-center gap-3"
         >
-          <Link
-            to="/privacy"
-            className="text-xs text-hero-muted/50 font-body hover:text-gold transition-colors"
-          >
-            Privacy Policy
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/privacy"
+              className="text-xs text-hero-muted/50 font-body hover:text-gold transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <span className="text-hero-muted/30">|</span>
+            <Link
+              to="/terms"
+              className="text-xs text-hero-muted/50 font-body hover:text-gold transition-colors"
+            >
+              Terms of Service
+            </Link>
+          </div>
           <p className="text-xs text-hero-muted/50 font-body">
             © {new Date().getFullYear()} Purely Planned Consulting
           </p>
