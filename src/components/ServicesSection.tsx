@@ -82,9 +82,9 @@ const ServicesSection = () => {
               <p className="text-sm text-hero-muted font-body mb-5">{s.desc}</p>
               <ul className="space-y-2">
                 {s.items.map((item) => (
-                  <li key={item} className="text-sm text-hero-muted/70 font-body flex items-start gap-2">
-                    <span className="text-gold mt-1.5 text-[6px]">●</span>
-                    {item}
+                  <li key={item} className="text-sm text-hero-muted/70 font-body flex items-baseline gap-2">
+                    <span className="text-gold text-[6px] shrink-0">●</span>
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
