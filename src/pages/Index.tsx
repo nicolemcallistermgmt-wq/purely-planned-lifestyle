@@ -8,6 +8,7 @@ import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
+import CookieConsent from "@/components/CookieConsent";
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
@@ -116,6 +117,7 @@ const Index = () => {
       <ContactSection />
       <Footer />
       <BackToTop />
+      <CookieConsent />
     </div>
   );
 };
