@@ -22,7 +22,7 @@ const services = [
     icon: HandHelping,
     title: "Concierge",
     desc: "Personal support for the details that keep life running smoothly.",
-    items: ["Errand running and vendor coordination", "Appointment scheduling and management", "Shopping, returns, and personal tasks", "Day-to-day household oversight"],
+    items: ["Errand running and personal task management", "Appointment scheduling and calendar coordination", "Travel arrangement and itinerary planning", "Vendor research, hiring, and oversight", "Gift sourcing, shopping, and returns", "Household supply management and restocking"],
   },
   {
     icon: Truck,
