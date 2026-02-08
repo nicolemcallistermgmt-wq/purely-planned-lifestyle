@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Shield, Layers, Sparkles } from "lucide-react";
+import { Shield, Layers, Sparkles, ShieldCheck, FileCheck, Lock, HeartHandshake } from "lucide-react";
 import GoldDivider from "./GoldDivider";
 
 
@@ -70,6 +70,35 @@ const AboutSection = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Our Standards */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          style={{ willChange: "opacity, transform" }}
+          className="mt-20 border border-accent/20 p-8 md:p-12"
+        >
+          <h3 className="font-heading text-2xl text-foreground text-center mb-3">Our Standards</h3>
+          <p className="text-sm text-muted-foreground font-body text-center mb-10 max-w-xl mx-auto">
+            Every engagement is held to the same uncompromising standard of care, privacy, and professionalism.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {[
+              { icon: ShieldCheck, label: "Fully Insured" },
+              { icon: FileCheck, label: "Background-Verified Staff" },
+              { icon: Lock, label: "NDA Available" },
+              { icon: HeartHandshake, label: "Satisfaction Guaranteed" },
+            ].map((s) => (
+              <div key={s.label} className="flex flex-col items-center text-center gap-3">
+                <div className="w-12 h-12 flex items-center justify-center border border-accent/30">
+                  <s.icon className="w-5 h-5 text-accent" strokeWidth={1.5} />
+                </div>
+                <span className="text-sm font-body text-foreground">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
 
       </div>
     </section>
