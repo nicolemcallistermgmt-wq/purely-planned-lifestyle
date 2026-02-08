@@ -66,7 +66,7 @@ const PricingSection = () => {
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
               className={`relative p-8 border transition-all duration-500 group ${
                 plan.featured
-                  ? "border-accent bg-secondary hover:shadow-[0_0_30px_-5px_hsl(var(--accent)/0.3)]"
+                  ? "border-accent bg-gradient-to-b from-secondary via-secondary to-accent/10 md:scale-105 md:-my-4 md:py-12 shadow-lg hover:shadow-[0_0_40px_-5px_hsl(var(--accent)/0.35)]"
                   : "border-border hover:border-accent/40 hover:shadow-[0_0_25px_-5px_hsl(var(--accent)/0.15)]"
               }`}
             >
