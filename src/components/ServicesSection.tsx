@@ -32,9 +32,9 @@ const services = [
   },
   {
     icon: Truck,
-    title: "Relocation",
-    desc: "Comprehensive support for moves and major life transitions.",
-    items: ["Downsizing and decision support", "Packing, labeling, and move coordination", "Unpacking and new home setup", "Settling-in systems so you feel at home quickly"],
+    title: "Move Management",
+    desc: "End-to-end project management for seamless, stress-free relocations.",
+    items: ["Full-service unpacking and home setup", "Storage inventory creation and tracking", "On-site mover supervision and coordination", "Sorting, editing, and charitable donation of belongings", "Utility transfers, address changes, and vendor liaison", "Custom timelines, client updates, and overall project oversight"],
   },
   {
     icon: PartyPopper,

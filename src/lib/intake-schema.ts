@@ -5,7 +5,7 @@ export const ALLOWED_SERVICES = [
   "Home Organizing",
   "Concierge Services",
   "Snow Bird Services",
-  "Relocation Assistance",
+  "Move Management",
   "Event Hospitality",
   "Move Management",
   "Downsizing",
