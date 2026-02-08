@@ -191,4 +191,17 @@
     min-height: 100vh;
     min-height: 100dvh;
   }
+
+  /* Landscape mobile adjustments */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .section-padding {
+      @apply py-10 px-5;
+    }
+
+    .min-h-screen-dynamic {
+      min-height: auto;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  }
 }
