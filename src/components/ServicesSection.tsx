@@ -24,6 +24,12 @@ const services = [
     desc: "Personal support for the details that keep life running smoothly.",
     items: ["Errand running and vendor coordination", "Appointment scheduling and management", "Shopping, returns, and personal tasks", "Day-to-day household oversight"],
   },
+  {
+    icon: Truck,
+    title: "Move Management",
+    desc: "End-to-end project management for seamless, stress-free relocations.",
+    items: ["Full-service unpacking and home setup", "Storage inventory creation and tracking", "On-site mover supervision and coordination", "Curating, downsizing, and donating unwanted items", "Utility transfers, address changes, and vendor liaison", "Custom timelines, client updates, and overall project oversight"],
+  },
 ];
 
 const ServicesSection = () => {
