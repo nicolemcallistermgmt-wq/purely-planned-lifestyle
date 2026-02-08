@@ -47,8 +47,8 @@ const PricingSection = () => {
           className="text-center mb-16"
           style={{ willChange: "opacity, transform" }}
         >
-          <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">Investment</p>
-          <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-6">Your Commitment</h2>
+          <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">Engagement</p>
+          <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-6">Service Rates</h2>
           <GoldDivider className="mb-6" />
           <p className="text-base md:text-lg text-muted-foreground font-body font-light max-w-2xl mx-auto">
             Professional services with clear, straightforward rates
