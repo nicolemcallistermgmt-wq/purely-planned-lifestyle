@@ -4,9 +4,7 @@ export const ALLOWED_SERVICES = [
   "Lifestyle Consulting",
   "Home Organizing",
   "Concierge Services",
-  "Snow Bird Services",
   "Move Management",
-  "Event Hospitality",
   "Move Management",
   "Downsizing",
 ] as const;
