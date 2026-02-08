@@ -50,7 +50,7 @@ const ServicesSection = () => {
           <h2 className="text-3xl md:text-5xl font-heading text-cream mb-6">Our Services</h2>
           <GoldDivider className="mb-6" />
           <p className="text-base md:text-lg text-hero-muted font-body font-light max-w-2xl mx-auto">
-            Comprehensive services tailored to your life, your space, and your needs
+            Comprehensive services tailored to your life, your space, and your needs — so you can reclaim what matters most: your time
           </p>
         </motion.div>
 
