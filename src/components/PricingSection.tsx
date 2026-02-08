@@ -92,8 +92,8 @@ const PricingSection = () => {
                 href={plan.href}
                 className={`block text-center px-6 py-3 text-sm tracking-[0.15em] uppercase font-body transition-all duration-300 ${
                   plan.featured
-                    ? "bg-accent text-primary hover:bg-gold-light hover:shadow-[0_4px_15px_-3px_hsl(var(--accent)/0.4)]"
-                    : "border border-accent text-accent hover:bg-accent hover:text-primary hover:shadow-[0_4px_15px_-3px_hsl(var(--accent)/0.3)]"
+                    ? "bg-accent text-primary font-medium hover:bg-gold-light hover:shadow-[0_4px_15px_-3px_hsl(var(--accent)/0.4)]"
+                    : "border border-accent/40 text-accent/80 hover:border-accent hover:text-accent hover:shadow-[0_4px_15px_-3px_hsl(var(--accent)/0.2)]"
                 }`}
               >
                 {plan.cta}
