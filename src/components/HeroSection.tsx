@@ -20,8 +20,6 @@ const HeroSection = () => {
       </motion.div>
       <motion.div className="absolute inset-0 bg-charcoal" style={{ opacity: overlayOpacity }} />
 
-      {/* Bottom gradient blending into background */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 md:h-48 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none" />
 
       <div className="relative z-10 text-center px-5 max-w-4xl mx-auto pt-16 pb-8 md:pt-0 md:pb-0 landscape-short:pt-20 landscape-short:pb-4">
         <motion.h1
@@ -40,7 +38,7 @@ const HeroSection = () => {
             <img
               src={logo}
               alt="Purely Planned Consulting"
-              className="w-20 h-20 md:w-28 md:h-28 landscape-short:w-14 landscape-short:h-14 mx-auto rounded-xl shadow-2xl bg-cream/90 p-2 md:p-3 landscape-short:p-1.5"
+              className="w-20 h-20 md:w-28 md:h-28 landscape-short:w-14 landscape-short:h-14 mx-auto"
               width={144}
               height={144}
               loading="eager"
