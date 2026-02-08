@@ -73,7 +73,9 @@ const Navigation = () => {
           ))}
           <a
             href="/intake"
-            className="text-xs tracking-[0.2em] uppercase font-body font-medium px-5 py-2.5 border border-accent text-accent hover:bg-accent hover:text-primary-foreground transition-all"
+            className={`text-xs tracking-[0.2em] uppercase font-body font-medium transition-colors ${
+              scrolled ? "text-foreground hover:text-accent" : "text-hero-foreground hover:text-accent"
+            }`}
           >
             Client Intake
           </a>
