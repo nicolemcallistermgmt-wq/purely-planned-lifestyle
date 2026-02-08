@@ -1,7 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
-  Compass, Home, HandHelping, Snowflake, Truck, PartyPopper,
+  Compass, Home, HandHelping, Truck,
 } from "lucide-react";
 import GoldDivider from "./GoldDivider";
 
@@ -23,24 +23,6 @@ const services = [
     title: "Concierge",
     desc: "Personal support for the details that keep life running smoothly.",
     items: ["Errand running and vendor coordination", "Appointment scheduling and management", "Shopping, returns, and personal tasks", "Day-to-day household oversight"],
-  },
-  {
-    icon: Snowflake,
-    title: "Snow Bird Services",
-    desc: "Seamless seasonal transitions between your homes.",
-    items: ["Home opening and closing preparation", "Property readiness checks and walkthroughs", "Seasonal wardrobe and supply rotation", "Mail, utilities, and vendor coordination"],
-  },
-  {
-    icon: Truck,
-    title: "Move Management",
-    desc: "End-to-end project management for seamless, stress-free relocations.",
-    items: ["Full-service unpacking and home setup", "Storage inventory creation and tracking", "On-site mover supervision and coordination", "Curating, downsizing, and donating unwanted items", "Utility transfers, address changes, and vendor liaison", "Custom timelines, client updates, and overall project oversight"],
-  },
-  {
-    icon: PartyPopper,
-    title: "Event Hospitality",
-    desc: "Polished preparation and support for gatherings of every size.",
-    items: ["Event planning and day-of coordination", "Home staging and preparation for entertaining", "Vendor and catering liaison", "Post-event cleanup and home restoration"],
   },
 ];
 
