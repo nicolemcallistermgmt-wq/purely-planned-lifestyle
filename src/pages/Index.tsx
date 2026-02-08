@@ -73,6 +73,11 @@ const faqSchema = {
     },
     {
       "@type": "Question",
+      name: "Are there additional expenses beyond service fees?",
+      acceptedAnswer: { "@type": "Answer", text: "Clients are responsible for all direct service expenses, including supplies, products, shipping, transportation, disposal, and overnight fees. Any such expenses not provided by the client will be billed at the time of service." },
+    },
+    {
+      "@type": "Question",
       name: "Is my personal information kept confidential?",
       acceptedAnswer: { "@type": "Answer", text: "Absolutely. We never sell or share your personal information. All team members are background-verified and we are fully insured." },
     },

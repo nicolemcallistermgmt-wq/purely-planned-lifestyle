@@ -34,6 +34,10 @@ const faqs = [
     a: "Our pricing varies based on the type and scope of service. We offer transparent tiered packages as well as custom quotes for larger projects. After an initial consultation, we'll recommend the best option and provide a clear estimate with no hidden fees.",
   },
   {
+    q: "Are there additional expenses beyond service fees?",
+    a: "Clients are responsible for all direct service expenses, including supplies, products, shipping, transportation, disposal, and overnight fees. Any such expenses not provided by the client will be billed at the time of service.",
+  },
+  {
     q: "Is my personal information kept confidential?",
     a: "Absolutely. Discretion is central to our practice. We never sell or share your personal information, and we regularly work with clients who require the highest levels of professional privacy. All team members are background-verified and we are fully insured.",
   },
