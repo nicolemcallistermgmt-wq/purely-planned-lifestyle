@@ -34,7 +34,7 @@ const services = [
     icon: Truck,
     title: "Move Management",
     desc: "End-to-end project management for seamless, stress-free relocations.",
-    items: ["Full-service unpacking and home setup", "Storage inventory creation and tracking", "On-site mover supervision and coordination", "Sorting, editing, and charitable donation of belongings", "Utility transfers, address changes, and vendor liaison", "Custom timelines, client updates, and overall project oversight"],
+    items: ["Full-service unpacking and home setup", "Storage inventory creation and tracking", "On-site mover supervision and coordination", "Curating, downsizing, and donating unwanted items", "Utility transfers, address changes, and vendor liaison", "Custom timelines, client updates, and overall project oversight"],
   },
   {
     icon: PartyPopper,
