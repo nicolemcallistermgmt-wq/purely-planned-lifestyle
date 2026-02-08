@@ -31,7 +31,7 @@ const localBusinessSchema = {
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Home & Office Organizing", description: "Transform spaces into calm, functional environments with decluttering, space planning, and storage systems." } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Personal Concierge", description: "Errand running, vendor coordination, appointment scheduling, and day-to-day household oversight." } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Snow Bird Services", description: "Seamless seasonal transitions between homes including property readiness checks and supply rotation." } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Relocation Support", description: "Comprehensive move management including downsizing, packing coordination, unpacking, and new home setup." } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Move Management", description: "End-to-end relocation project management including unpacking, mover supervision, storage inventory, donation coordination, and vendor liaison." } },
       { "@type": "Offer", itemOffered: { "@type": "Service", name: "Event Hospitality", description: "Event planning, home staging for entertaining, vendor liaison, and post-event restoration." } },
     ],
   },
@@ -65,7 +65,7 @@ const faqSchema = {
     {
       "@type": "Question",
       name: "Can you help with a move or relocation?",
-      acceptedAnswer: { "@type": "Answer", text: "Yes. We offer comprehensive move management including downsizing support, packing and labeling, coordination with movers, unpacking, and setting up organized systems in your new home." },
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Our Move Management service covers every detail — from on-site mover supervision and unpacking to storage inventory tracking, donation coordination, utility transfers, and overall project oversight." },
     },
     {
       "@type": "Question",
