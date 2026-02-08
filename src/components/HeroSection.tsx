@@ -20,17 +20,17 @@ const HeroSection = () => {
       </motion.div>
       <motion.div className="absolute inset-0 bg-charcoal" style={{ opacity: overlayOpacity }} />
 
-      <div className="relative z-10 text-center px-5 max-w-4xl mx-auto pt-16 pb-8 md:pt-0 md:pb-0">
+      <div className="relative z-10 text-center px-5 max-w-4xl mx-auto pt-16 pb-8 md:pt-0 md:pb-0 landscape-short:pt-20 landscape-short:pb-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-10"
+          className="mb-10 landscape-short:mb-4"
         >
           <img
             src={logo}
             alt="Purely Planned Consulting"
-            className="w-28 h-28 md:w-36 md:h-36 mx-auto rounded-xl shadow-2xl bg-cream p-3"
+            className="w-28 h-28 md:w-36 md:h-36 landscape-short:w-16 landscape-short:h-16 mx-auto rounded-xl shadow-2xl bg-cream p-3 landscape-short:p-1.5"
             width={144}
             height={144}
             loading="eager"
@@ -41,7 +41,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-heading font-normal text-hero-foreground mb-6 leading-tight"
+          className="text-4xl md:text-6xl lg:text-7xl landscape-short:text-2xl font-heading font-normal text-hero-foreground mb-6 landscape-short:mb-3 leading-tight"
         >
           Purely Planned
           <br />
@@ -52,7 +52,7 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex items-center justify-center gap-4 mb-8"
+          className="flex items-center justify-center gap-4 mb-8 landscape-short:mb-4"
         >
           <div className="h-px w-12 bg-gold/50" />
           <p className="text-xs md:text-sm tracking-[0.3em] uppercase text-hero-muted font-body">
@@ -65,7 +65,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-lg md:text-xl text-hero-muted font-body font-light max-w-2xl mx-auto mb-4 leading-relaxed"
+          className="text-lg md:text-xl landscape-short:text-sm text-hero-muted font-body font-light max-w-2xl mx-auto mb-4 landscape-short:mb-2 leading-relaxed"
         >
           Thoughtful, discreet service for discerning clients who value their time
         </motion.p>
@@ -74,7 +74,7 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-xs tracking-[0.25em] uppercase text-gold font-body mb-12"
+          className="text-xs tracking-[0.25em] uppercase text-gold font-body mb-12 landscape-short:mb-6"
         >
           Proudly Serving Washington D.C., Maryland & Virginia
         </motion.p>
