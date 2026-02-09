@@ -109,8 +109,8 @@ const Index = () => {
       </Helmet>
       <Navigation />
       <HeroSection />
-      <AboutSection />
       <FounderBio />
+      <AboutSection />
       <ServicesSection />
       <PricingSection />
       <FAQSection />
