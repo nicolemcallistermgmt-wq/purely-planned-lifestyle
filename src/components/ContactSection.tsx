@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, FileText, Loader2 } from "lucide-react";
+import { Mail, Phone, FileText, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import GoldDivider from "./GoldDivider";
@@ -100,6 +100,7 @@ const ContactSection = () => {
           <div className="lg:col-span-2 space-y-8">
             {[
               { icon: Mail, title: "Email", content: (<a href="mailto:info@purelyplannedconsulting.com" className="text-sm text-hero-muted font-body hover:text-gold transition-colors">info@purelyplannedconsulting.com</a>) },
+              { icon: Phone, title: "Phone", content: (<a href="tel:+14432809329" className="text-sm text-hero-muted font-body hover:text-gold transition-colors">(443) 280-9329</a>) },
               { icon: FileText, title: "New Clients", content: (<><a href="/intake" className="text-sm text-gold font-body hover:text-gold-light transition-colors">Complete Intake Form →</a><p className="text-xs text-hero-muted/60 font-body mt-2">Comprehensive form ensures we understand your needs</p></>) },
             ].map((card, i) => (
               <motion.div key={card.title} initial={{ opacity: 0, x: 30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6, delay: 0.5 + i * 0.12, ease: "easeOut" }} className="border border-charcoal-light p-6 hover:border-gold/30 transition-colors duration-300">
