@@ -36,11 +36,7 @@ const FounderBio = () => {
             efficiency, and peace of mind.
           </p>
           <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed text-center">
-            A wife and mother to two daughters, Giana and Ava, Nicole understands firsthand the demands
-            of a full and fast-moving life. She and her husband, Mike, also share their home with their
-            mini Goldendoodle, Koa, who keeps things lively and reminds everyone to slow down once in a
-            while. After several years as a stay-at-home mom, it was Mike's encouragement that pushed
-            Nicole to turn her natural strengths—organization, planning, research, and advocacy—into a
+            Nicole turned her natural strengths—organization, planning, research, and advocacy—into a
             business of her own.
           </p>
           <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed text-center">
