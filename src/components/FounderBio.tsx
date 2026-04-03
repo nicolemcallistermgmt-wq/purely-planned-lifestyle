@@ -38,7 +38,7 @@ const FounderBio = () => {
             business of her own.
           </p>
           <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed text-center">
-            Prior to relocating to Maryland, Nicole worked in New York City as a Professional Organizer
+            Prior to relocating to Maryland, Nicole worked in Manhattan, New York as a Professional Organizer
             and Lifestyle Manager, supporting high-profile clients in environments where trust, attention
             to detail, and discretion were non-negotiable. That experience continues to shape her
             thoughtful, results-driven approach today.
