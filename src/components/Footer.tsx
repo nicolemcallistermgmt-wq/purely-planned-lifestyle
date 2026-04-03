@@ -36,6 +36,24 @@ const Footer = () => {
           ))}
         </div>
 
+        {/* NAPO Member Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="flex justify-center"
+        >
+          <img
+            src={napoLogo}
+            alt="NAPO Member – National Association of Productivity and Organizing Professionals"
+            width={120}
+            height={120}
+            loading="lazy"
+            decoding="async"
+            className="object-contain"
+          />
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
