@@ -58,7 +58,6 @@ const AboutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 + i * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ willChange: "opacity, transform" }}
               className="text-center group"
             >
               <div className="w-14 h-14 mx-auto mb-5 flex items-center justify-center border border-accent/30 group-hover:border-accent group-hover:scale-110 transition-all duration-300">
