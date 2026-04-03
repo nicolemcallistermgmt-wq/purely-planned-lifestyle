@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ShieldCheck, Eye, UserCheck } from "lucide-react";
 import { Link } from "react-router-dom";
+import napoLogo from "@/assets/napo-member.png";
 
 const badges = [
   { icon: Eye, label: "Confidential & Discreet" },
