@@ -38,7 +38,7 @@ const HeroSection = () => {
             <img
               src={logo}
               alt="Purely Planned Consulting"
-              className="w-20 h-20 md:w-28 md:h-28 landscape-short:w-14 landscape-short:h-14 mx-auto mix-blend-screen"
+              className="w-20 h-20 md:w-28 md:h-28 landscape-short:w-14 landscape-short:h-14 mx-auto"
               width={144}
               height={144}
               loading="eager"
