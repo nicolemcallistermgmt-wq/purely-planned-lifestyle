@@ -22,7 +22,6 @@ const AboutSection = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
           className="text-center mb-16"
-          style={{ willChange: "opacity, transform" }}
         >
           <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">About Us</p>
           <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-8">
@@ -59,7 +58,6 @@ const AboutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 + i * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ willChange: "opacity, transform" }}
               className="text-center group"
             >
               <div className="w-14 h-14 mx-auto mb-5 flex items-center justify-center border border-accent/30 group-hover:border-accent group-hover:scale-110 transition-all duration-300">
@@ -76,7 +74,6 @@ const AboutSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-          style={{ willChange: "opacity, transform" }}
           className="mt-20 border border-accent/20 p-8 md:p-12"
         >
           <h3 className="font-heading text-2xl text-foreground text-center mb-3">Our Standards</h3>

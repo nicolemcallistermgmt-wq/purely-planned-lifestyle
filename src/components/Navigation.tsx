@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -15,53 +15,64 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 50);
+    let ticking = false;
 
-      // Determine active section
+    const update = () => {
+      const sy = window.scrollY;
+      setScrolled(sy > 50);
+
       const sections = navLinks
         .filter((l) => l.section)
-        .map((l) => ({
-          id: l.section,
-          el: document.getElementById(l.section),
-        }))
+        .map((l) => ({ id: l.section, el: document.getElementById(l.section) }))
         .filter((s) => s.el);
 
       let current = "";
       for (const s of sections) {
-        const rect = s.el!.getBoundingClientRect();
-        if (rect.top <= 200) current = s.id;
+        if (s.el!.getBoundingClientRect().top <= 200) current = s.id;
       }
-      setActiveSection(window.scrollY < 300 ? "" : current);
+      setActiveSection(sy < 300 ? "" : current);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        rafRef.current = requestAnimationFrame(update);
+      }
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
-  const linkClass = (section: string) => {
-    const isActive = activeSection === section || (!activeSection && !section);
-    return `text-xs tracking-[0.2em] uppercase font-body font-medium transition-colors ${
-      isActive
-        ? "text-accent"
-        : scrolled
-          ? "text-foreground hover:text-accent"
-          : "text-hero-foreground hover:text-accent"
-    }`;
-  };
+  const linkClass = useCallback(
+    (section: string) => {
+      const isActive = activeSection === section || (!activeSection && !section);
+      return `text-xs tracking-[0.2em] uppercase font-body font-medium transition-colors duration-200 ${
+        isActive
+          ? "text-accent"
+          : scrolled
+            ? "text-foreground hover:text-accent"
+            : "text-hero-foreground hover:text-accent"
+      }`;
+    },
+    [activeSection, scrolled]
+  );
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+    <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"
           : "bg-transparent"
       }`}
+      style={{ transform: "translateZ(0)" }}
     >
       <div className="w-full px-5 md:px-12 flex items-center justify-start md:justify-center h-16 md:h-20">
         {/* Desktop */}
@@ -73,7 +84,7 @@ const Navigation = () => {
           ))}
           <a
             href="/intake"
-            className={`text-xs tracking-[0.2em] uppercase font-body font-medium transition-colors ${
+            className={`text-xs tracking-[0.2em] uppercase font-body font-medium transition-colors duration-200 ${
               scrolled ? "text-foreground hover:text-accent" : "text-hero-foreground hover:text-accent"
             }`}
           >
@@ -125,7 +136,7 @@ const Navigation = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </nav>
   );
 };
 

@@ -45,7 +45,6 @@ const PricingSection = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
           className="text-center mb-16"
-          style={{ willChange: "opacity, transform" }}
         >
           <p className="text-xs tracking-[0.3em] uppercase text-accent font-body mb-4">Engagement</p>
           <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-6">Service Rates</h2>
@@ -62,7 +61,6 @@ const PricingSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1 + i * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ willChange: "opacity, transform" }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
               className={`relative p-8 border transition-all duration-500 group ${
                 plan.featured
