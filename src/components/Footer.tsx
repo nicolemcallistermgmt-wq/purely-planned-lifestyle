@@ -46,8 +46,8 @@ const Footer = () => {
           <img
             src={napoLogo}
             alt="NAPO Member – National Association of Productivity and Organizing Professionals"
-            width={120}
-            height={120}
+            width={160}
+            height={160}
             loading="lazy"
             decoding="async"
             className="object-contain"
