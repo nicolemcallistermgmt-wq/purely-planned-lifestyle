@@ -60,7 +60,6 @@ const ServicesSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1 + i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ willChange: "opacity, transform" }}
               whileHover={{ y: -4, transition: { duration: 0.25 } }}
               className="border border-charcoal-light p-8 hover:border-gold/40 hover:bg-charcoal-light/30 transition-all duration-500 group"
             >

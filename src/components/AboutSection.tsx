@@ -74,7 +74,6 @@ const AboutSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-          style={{ willChange: "opacity, transform" }}
           className="mt-20 border border-accent/20 p-8 md:p-12"
         >
           <h3 className="font-heading text-2xl text-foreground text-center mb-3">Our Standards</h3>

@@ -27,7 +27,6 @@ const FounderBio = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="space-y-6"
-          style={{ willChange: "opacity, transform" }}
         >
           <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed text-center">
             Nicole McAllister is the founder of Purely Planned Consulting, a concierge and
