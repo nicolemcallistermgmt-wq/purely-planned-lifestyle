@@ -1,25 +1,24 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import logo from "@/assets/logo-transparent.webp";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.75, 0.9]);
-
   return (
-    <section ref={ref} className="relative min-h-screen-dynamic flex items-center justify-center overflow-hidden hero-section">
-      {/* Parallax background */}
-      <motion.div className="absolute inset-0" style={{ y: bgY }}>
-        <img src={heroBg} alt="" className="w-full h-full object-cover scale-110" loading="eager" fetchPriority="high" width={1534} height={1080} />
-      </motion.div>
-      <motion.div className="absolute inset-0 bg-charcoal" style={{ opacity: overlayOpacity }} />
-
+    <section className="relative min-h-screen-dynamic flex items-center justify-center overflow-hidden hero-section">
+      {/* Static background — no parallax for GPU compositing */}
+      <div className="absolute inset-0">
+        <img
+          src={heroBg}
+          alt=""
+          className="w-full h-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          width={1920}
+          height={1080}
+          decoding="async"
+        />
+      </div>
+      <div className="absolute inset-0 bg-charcoal/[0.78]" />
 
       <div className="relative z-10 text-center px-5 max-w-4xl mx-auto pt-16 pb-8 md:pt-0 md:pb-0 landscape-short:pt-20 landscape-short:pb-4">
         <motion.h1
@@ -28,7 +27,6 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-4xl md:text-6xl lg:text-7xl landscape-short:text-2xl font-heading font-normal text-hero-foreground mb-6 landscape-short:mb-3 leading-tight"
         >
-          {/* Logo integrated inline with heading */}
           <motion.span
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -42,6 +40,7 @@ const HeroSection = () => {
               width={144}
               height={144}
               loading="eager"
+              decoding="async"
             />
           </motion.span>
           <br />
