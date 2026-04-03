@@ -130,21 +130,19 @@
 
   * {
     @apply border-border;
-    /* Remove tap highlight on mobile */
     -webkit-tap-highlight-color: transparent;
   }
 
   body {
     @apply bg-background text-foreground font-body antialiased;
-    /* Safe area insets for notched devices */
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
-    /* Prevent horizontal overflow only */
     overflow-x: hidden;
-    /* Smooth scrolling momentum on iOS */
     -webkit-overflow-scrolling: touch;
+    /* Optimize paint by hinting scroll containment */
+    overscroll-behavior-y: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -165,6 +163,18 @@
   /* Fix Safari flexbox issues */
   img {
     -webkit-user-drag: none;
+    /* Prevent image decode jank */
+    content-visibility: auto;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
